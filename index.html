@@ -16,13 +16,11 @@
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
 
-/* ── LOADING ── */
+/* ── LOADING & LOGIN ── */
 #loading-screen{position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),var(--navy-light));display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:16px}
 .spinner{width:38px;height:38px;border:3px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-txt{color:rgba(255,255,255,.5);font-size:.78rem;font-family:'DM Mono',monospace}
-
-/* ── LOGIN ── */
 #login-screen{display:none;position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),var(--navy-light));align-items:center;justify-content:center;padding:24px;z-index:999}
 .login-card{text-align:center;color:white;max-width:320px;width:100%}
 .login-emoji{font-size:2.8rem;margin-bottom:14px}
@@ -30,13 +28,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .login-sub{font-size:.75rem;opacity:.5;margin-bottom:36px;font-family:'DM Mono',monospace}
 .google-btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;padding:13px 20px;background:white;color:#1e293b;border:none;border-radius:12px;font-size:.9rem;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.25)}
 .google-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
-.google-btn:active{transform:translateY(0)}
-.login-hint{font-size:.7rem;opacity:.35;margin-top:18px}
 
-/* ── APP ── */
+/* ── APP & HEADER ── */
 #app{display:none}
-
-/* ── HEADER ── */
 .hdr{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;padding:14px 24px 12px;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.25)}
 .hdr-r1{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .hdr-title{font-size:1rem;font-weight:700;letter-spacing:-.2px}
@@ -73,11 +67,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .tab-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .tab-cnt{font-size:.66rem;font-family:'DM Mono',monospace;opacity:.6}
 
-/* ── PANELS ── */
+/* ── PANELS & RESUMO ── */
 .panels{padding:20px 24px 60px;max-width:860px;margin:0 auto}
 .panel{display:none}.panel.active{display:block}
-
-/* ── RESUMO ── */
 .resumo-intro{font-size:.78rem;color:var(--slate);margin-bottom:16px;background:var(--surface);border-radius:10px;padding:10px 14px;border:1px solid var(--border)}
 .exam-row{background:var(--surface);border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,.06),0 0 0 1px var(--border);margin-bottom:9px;display:flex;align-items:stretch;overflow:hidden;transition:box-shadow .15s}
 .exam-row:hover{box-shadow:0 3px 12px rgba(0,0,0,.1),0 0 0 1px var(--border)}
@@ -95,13 +87,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .na-tag{font-size:.7rem;color:var(--slate-l);font-style:italic}
 .month-sep{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--slate-l);margin:16px 0 8px;padding-left:4px}
 
-/* ── DISCIPLINE ── */
+/* ── DISCIPLINE & NEW FEATURES (EDIT, DRAG, ADD, DEL) ── */
 .disc-header{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
 .disc-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
 .disc-stats{font-size:.78rem;color:var(--slate);font-family:'DM Mono',monospace}
 .section{margin-bottom:22px}
 .sec-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:10px}
 .sec-title{font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:7px;flex-wrap:wrap;line-height:1.3}
+
+/* Editable Titles */
+.editable-title{padding:2px 6px;border-radius:6px;border:1px solid transparent;transition:all 0.2s;outline:none}
+.editable-title:hover{border-color:var(--border);background:#f8fafc}
+.editable-title:focus{border-color:var(--sky);background:#fff;box-shadow:0 0 0 2px rgba(2,132,199,0.2)}
+
 .exam-tag{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:6px;font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
 .sec-count{font-size:.72rem;color:var(--slate);font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
 .mini-track{height:3px;background:var(--border);border-radius:4px;margin-bottom:10px;overflow:hidden}
@@ -111,9 +109,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .tag-purple{background:#ede9fe;color:#5b21b6}
 .tag-green{background:#dcfce7;color:#166534}
 
-/* ── CHECKLIST ── */
-.checklist{background:var(--surface);border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,.06),0 0 0 1px var(--border);overflow:hidden}
-.item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid #f1f5f9;cursor:pointer;transition:background .12s;-webkit-tap-highlight-color:transparent;user-select:none}
+.checklist{background:var(--surface);border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,.06),0 0 0 1px var(--border);overflow:hidden;min-height:20px}
+.item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid #f1f5f9;cursor:grab;transition:background .12s, opacity .2s;-webkit-tap-highlight-color:transparent;user-select:none}
+.item:active{cursor:grabbing}
+.item.dragging{opacity:0.4;background:#e2e8f0}
 .item:last-child{border-bottom:none}
 .item:hover{background:#f8fafc}
 .item.done{background:#f0fdf4}
@@ -124,6 +123,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .item.done .cbchk{opacity:1}
 .itext{font-size:.84rem;line-height:1.45;color:var(--text);flex:1}
 
+/* Actions (Add/Del) */
+.item-actions{display:none;margin-left:auto;align-items:center}
+.item:hover .item-actions{display:flex}
+.del-btn{background:#fee2e2;border:1px solid #fca5a5;color:#b91c1c;border-radius:6px;padding:4px 8px;font-size:0.7rem;cursor:pointer;transition:all 0.2s}
+.del-btn:hover{background:#f87171;color:white}
+.add-btn{width:100%;border:2px dashed #cbd5e1;background:transparent;padding:10px;border-radius:8px;color:var(--slate);font-weight:600;font-size:0.8rem;cursor:pointer;transition:all 0.2s;margin-top:10px;font-family:'DM Sans',sans-serif}
+.add-btn:hover{border-color:var(--teal);color:var(--teal);background:#f0fdfa}
+
 .note{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:10px 14px;font-size:.77rem;color:#78350f;margin-bottom:16px}
 .reset-btn{display:block;margin:0 auto 8px;padding:7px 16px;background:none;border:1px solid var(--border);border-radius:8px;font-size:.74rem;color:var(--slate);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
 .reset-btn:hover{background:#fee2e2;border-color:#fca5a5;color:#b91c1c}
@@ -131,6 +138,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 @media(max-width:600px){
   .hdr{padding:12px 14px 10px}.panels{padding:14px 12px 60px}
   .exam-bar-wrap{width:110px}.tabs{padding:0 8px}.exam-name{min-width:120px}
+  .item-actions{display:flex;opacity:0.3} /* sempre visível (fraquinho) no celular */
 }
 </style>
 </head>
@@ -147,12 +155,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
     <div class="login-title">Checklist de Estudos</div>
     <div class="login-sub">MED 117 · UnB · 2026.1</div>
     <button class="google-btn" onclick="signIn()">
-      <svg width="18" height="18" viewBox="0 0 24 24">
-        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-      </svg>
       Entrar com Google
     </button>
     <div class="login-hint">Progresso sincronizado em todos os dispositivos</div>
@@ -207,10 +209,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.firestore();
-db.enablePersistence().catch(() => {});  // funciona offline também
+db.enablePersistence().catch(() => {});
 
-// ── DATA ──────────────────────────────────────────────────
-const DISCIPLINES = [
+// ── TEMPLATE BASE ─────────────────────────────────────────
+// Este array agora serve como GABARITO. Os dados reai ficam em userDisciplines.
+const TEMPLATE_DISCIPLINES = [
   {
     id:'ced', label:'CeD', emoji:'👶', fullLabel:'Crescimento e Desenvolvimento',
     color:'#0d9488', fill:'#14b8a6',
@@ -353,10 +356,13 @@ const COLORS={ced:'#0d9488',neo:'#0284c7',go:'#7c3aed',pato:'#e11d48',sfc:'#94a3
 const FILLS ={ced:'#14b8a6',neo:'#38bdf8',go:'#a78bfa',pato:'#fb7185',sfc:'#cbd5e1',imago:'#fbbf24'};
 
 // ── STATE ──────────────────────────────────────────────────
-let checked = {};
+let userDisciplines = [];
 let activeTab = 'resumo';
 let currentUser = null;
 let saveTimer = null;
+let dragContext = null;
+
+const genId = () => Math.random().toString(36).substr(2, 9);
 
 // ── AUTH ───────────────────────────────────────────────────
 auth.onAuthStateChanged(async user => {
@@ -365,12 +371,7 @@ auth.onAuthStateChanged(async user => {
     updateUserUI(user);
     await loadFromFirestore();
     showScreen('app');
-    // Envolver renderAll num try-catch ajuda a isolar qualquer quebra futura de UI
-    try {
-      renderAll();
-    } catch (e) {
-      console.error("Erro fatal ao renderizar interface:", e);
-    }
+    try { renderAll(); } catch (e) { console.error("Erro render:", e); }
   } else {
     showScreen('login');
   }
@@ -378,22 +379,20 @@ auth.onAuthStateChanged(async user => {
 
 function signIn() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).catch(e => alert('Erro ao entrar: ' + e.message));
+  auth.signInWithPopup(provider).catch(e => alert('Erro: ' + e.message));
 }
 
 function doSignOut() {
   if (!confirm('Sair da conta?')) return;
   auth.signOut();
-  checked = {};
+  userDisciplines = [];
   showScreen('login');
 }
 
 function updateUserUI(user) {
-  const av = document.getElementById('user-avatar');
-  document.getElementById('user-name').textContent = (user.displayName || user.email || 'Usuário').split(' ')[0];
-  av.innerHTML = user.photoURL
-    ? `<img src="${user.photoURL}" alt="">`
-    : (user.displayName || 'U').charAt(0).toUpperCase();
+  document.getElementById('user-name').textContent = (user.displayName || user.email || 'U').split(' ')[0];
+  document.getElementById('user-avatar').innerHTML = user.photoURL
+    ? `<img src="${user.photoURL}" alt="">` : (user.displayName || 'U').charAt(0).toUpperCase();
 }
 
 function showScreen(which) {
@@ -402,18 +401,42 @@ function showScreen(which) {
   document.getElementById('app').style.display           = which === 'app'     ? 'block': 'none';
 }
 
-// ── FIRESTORE ──────────────────────────────────────────────
+// ── FIRESTORE & DATA MIGRATION ─────────────────────────────
 async function loadFromFirestore() {
   try {
     const snap = await db.collection('users').doc(currentUser.uid).collection('checklist').doc('data').get();
     if (snap.exists) {
       const data = snap.data();
-      checked = (data && data.checked) ? data.checked : {};
+      if (data.userDisciplines) {
+        userDisciplines = data.userDisciplines;
+      } else if (data.checked) {
+        userDisciplines = migrateLegacyData(data.checked);
+      } else {
+        userDisciplines = buildInitialData();
+      }
+    } else {
+      userDisciplines = buildInitialData();
     }
   } catch(e) {
-    console.error('Erro ao carregar dados:', e);
-    checked = {}; // Garante fallback seguro
+    console.error('Erro load:', e);
+    userDisciplines = buildInitialData();
   }
+}
+
+function buildInitialData() {
+  let cloned = JSON.parse(JSON.stringify(TEMPLATE_DISCIPLINES));
+  cloned.forEach(d => d.sections.forEach(s => {
+    s.items = s.items.map(lbl => ({ id: genId(), label: lbl, done: false }));
+  }));
+  return cloned;
+}
+
+function migrateLegacyData(oldChecked) {
+  let cloned = JSON.parse(JSON.stringify(TEMPLATE_DISCIPLINES));
+  cloned.forEach(d => d.sections.forEach((s, si) => {
+    s.items = s.items.map((lbl, ii) => ({ id: genId(), label: lbl, done: !!oldChecked[`${d.id}.${si}.${ii}`] }));
+  }));
+  return cloned;
 }
 
 function scheduleSave() {
@@ -422,7 +445,7 @@ function scheduleSave() {
   saveTimer = setTimeout(async () => {
     try {
       await db.collection('users').doc(currentUser.uid).collection('checklist').doc('data')
-        .set({ checked, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+        .set({ userDisciplines, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
       setSyncStatus('saved');
     } catch(e) { setSyncStatus('error'); }
   }, 800);
@@ -431,48 +454,37 @@ function scheduleSave() {
 function setSyncStatus(s) {
   const dot = document.getElementById('sync-dot');
   const lbl = document.getElementById('sync-lbl');
-  if (!dot || !lbl) return;
+  if(!dot) return;
   dot.className = 'sync-dot' + (s === 'saving' ? ' saving' : s === 'error' ? ' error' : '');
   lbl.textContent = s === 'saving' ? 'salvando...' : s === 'error' ? 'erro ✕' : 'salvo ✓';
 }
 
-// ── HELPERS ────────────────────────────────────────────────
-const key = (d,s,i) => `${d}.${s}.${i}`;
-
-function secStats(dId, si, items) {
-  // Evita erro se items vier indefinido acidentalmente
+// ── HELPERS (STATS) ────────────────────────────────────────
+function secStats(items) {
   if (!items || !Array.isArray(items)) return { done: 0, total: 0 }; 
-  let done = 0;
-  items.forEach((_,i) => { if(checked && checked[key(dId,si,i)]) done++; });
+  let done = items.filter(i => i.done).length;
   return { done, total: items.length };
 }
 
 function examStats(exam) {
-  // Fallback robusto no caso de referências de provas não mapeadas
   if (!exam || !exam.refs || !exam.refs.length) return null;
   let done = 0, total = 0;
   exam.refs.forEach(({d,s}) => {
-    const disc = DISCIPLINES.find(x => x.id === d);
-    // Substituição de optional chaining (?.) por navegação segura lógica para garantir compatibilidade
+    const disc = userDisciplines.find(x => x.id === d);
     if (!disc || !disc.sections || !disc.sections[s]) return;
-    
-    const st = secStats(d, s, disc.sections[s].items);
-    done += st.done; 
-    total += st.total;
+    const st = secStats(disc.sections[s].items);
+    done += st.done; total += st.total;
   });
   return { done, total, pct: total ? Math.round((done/total)*100) : 0 };
 }
 
 function overallStats() {
   let done = 0, total = 0;
-  if (!DISCIPLINES) return { done: 0, total: 0, pct: 0 };
-  
-  DISCIPLINES.forEach(d => {
+  userDisciplines.forEach(d => {
     if(!d.sections) return;
-    d.sections.forEach((s,si) => {
-      const st = secStats(d.id, si, s.items);
-      done += st.done; 
-      total += st.total;
+    d.sections.forEach((s) => {
+      const st = secStats(s.items);
+      done += st.done; total += st.total;
     });
   });
   return { done, total, pct: total ? Math.round((done/total)*100) : 0 };
@@ -481,34 +493,28 @@ function overallStats() {
 function discStats(d) {
   let done = 0, total = 0;
   if(!d.sections) return { done: 0, total: 0 };
-  
-  d.sections.forEach((s,si) => { 
-    const st = secStats(d.id, si, s.items); 
-    done += st.done; 
-    total += st.total; 
+  d.sections.forEach((s) => { 
+    const st = secStats(s.items); 
+    done += st.done; total += st.total; 
   });
   return { done, total };
 }
 
-// ── RENDER TABS ────────────────────────────────────────────
+// ── RENDERIZAÇÃO ───────────────────────────────────────────
 function renderTabs() {
   const all = [
     { id:'resumo', label:'Resumo', emoji:'📊', cls:'resumo', dot:'#0f1f3d' },
-    ...(DISCIPLINES || []).map(d => ({ id:d.id, label:d.label, emoji:d.emoji, cls:d.id, dot:d.color, stats:discStats(d) }))
+    ...userDisciplines.map(d => ({ id:d.id, label:d.label, emoji:d.emoji, cls:d.id, dot:d.color, stats:discStats(d) }))
   ];
   
-  const tabsContainer = document.getElementById('tabs');
-  if (tabsContainer) {
-    tabsContainer.innerHTML = all.map(t => {
-      const active = t.id === activeTab ? `t-${t.cls} active` : '';
-      const cnt = t.stats ? `<span class="tab-cnt">${t.stats.done}/${t.stats.total}</span>` : '';
-      return `<div class="tab t-${t.cls} ${active}" onclick="switchTab('${t.id}')">
-        <span class="tab-dot" style="background:${t.dot || '#94a3b8'}"></span>${t.emoji} ${t.label}${cnt}</div>`;
-    }).join('');
-  }
+  document.getElementById('tabs').innerHTML = all.map(t => {
+    const active = t.id === activeTab ? `t-${t.cls} active` : '';
+    const cnt = t.stats ? `<span class="tab-cnt">${t.stats.done}/${t.stats.total}</span>` : '';
+    return `<div class="tab t-${t.cls} ${active}" onclick="switchTab('${t.id}')">
+      <span class="tab-dot" style="background:${t.dot || '#94a3b8'}"></span>${t.emoji} ${t.label}${cnt}</div>`;
+  }).join('');
 }
 
-// ── RENDER RESUMO ──────────────────────────────────────────
 function renderResumo() {
   let prevMonth = '';
   const rows = (EXAM_MAP || []).map(exam => {
@@ -517,41 +523,29 @@ function renderResumo() {
     const fill  = FILLS[exam.cls]  || '#cbd5e1';
     let sep = '';
     
-    if (exam.month !== prevMonth) { 
-      sep = `<div class="month-sep">— ${exam.month}</div>`; 
-      prevMonth = exam.month; 
-    }
+    if (exam.month !== prevMonth) { sep = `<div class="month-sep">— ${exam.month}</div>`; prevMonth = exam.month; }
     
     const progress = !stats
       ? `<span class="na-tag">${exam.note || '–'}</span>`
-      : `<div class="exam-bar-wrap">
-          <div class="exam-bar-bg"><div class="exam-bar-f" style="width:${stats.pct}%;background:${fill}"></div></div>
-          <div class="exam-bar-labels">
-            <span class="exam-pct" style="color:${color}">${stats.pct}%</span>
-            <span class="exam-cnt">${stats.done}/${stats.total} tópicos</span>
-          </div></div>`;
+      : `<div class="exam-bar-wrap"><div class="exam-bar-bg"><div class="exam-bar-f" style="width:${stats.pct}%;background:${fill}"></div></div>
+          <div class="exam-bar-labels"><span class="exam-pct" style="color:${color}">${stats.pct}%</span><span class="exam-cnt">${stats.done}/${stats.total} tópicos</span></div></div>`;
           
     const acc = exam.accumulated ? '<span class="acc-tag">acumulativo</span>' : '';
-    return `${sep}<div class="exam-row">
-      <div class="exam-stripe" style="background:${color}"></div>
-      <div class="exam-body">
-        <div class="exam-date">${exam.date}</div>
-        <div class="exam-name">${exam.full} ${acc}</div>
-        ${progress}
-      </div></div>`;
+    return `${sep}<div class="exam-row"><div class="exam-stripe" style="background:${color}"></div><div class="exam-body">
+        <div class="exam-date">${exam.date}</div><div class="exam-name">${exam.full} ${acc}</div>${progress}</div></div>`;
   }).join('');
-  
   return `<div class="resumo-intro">ℹ️ Cada barra mostra o % dos tópicos daquela avaliação já estudados. Provas <b>acumulativas</b> somam o conteúdo de provas anteriores.</div>${rows}`;
 }
 
-// ── RENDER DISCIPLINE ──────────────────────────────────────
 function renderDiscPanel(d) {
   const { done, total } = discStats(d);
   const sectionsHtml = (d.sections || []).map((s,si) => renderSection(d,s,si)).join('');
   
   return `
     <div class="disc-header">
-      <div class="disc-title" style="color:${d.color}">${d.emoji} ${d.fullLabel}</div>
+      <div class="disc-title" style="color:${d.color}">
+        ${d.emoji} <span class="editable-title" contenteditable="true" onblur="updateTitle('${d.id}', null, this.innerText)">${d.fullLabel}</span>
+      </div>
       <div class="disc-stats">${done}/${total} tópicos</div>
     </div>
     ${d.note ? `<div class="note">ℹ️ ${d.note}</div>` : ''}
@@ -560,27 +554,34 @@ function renderDiscPanel(d) {
 }
 
 function renderSection(d, s, si) {
-  const { done, total } = secStats(d.id, si, s.items);
+  const { done, total } = secStats(s.items);
   const pct = total ? Math.round((done/total)*100) : 0;
-  const itemsHtml = (s.items || []).map((item,ii) => renderItem(d,si,ii,item)).join('');
+  const itemsHtml = (s.items || []).map((item) => renderItem(d,si,item)).join('');
   
   return `<div class="section" id="sec-${d.id}-${si}">
     <div class="sec-head">
-      <div class="sec-title">${s.title}<span class="exam-tag ${s.tagClass || ''}">📅 ${s.exam}</span></div>
+      <div class="sec-title">
+        <span class="editable-title" contenteditable="true" onblur="updateTitle('${d.id}', ${si}, this.innerText)">${s.title}</span>
+        <span class="exam-tag ${s.tagClass || ''}">📅 ${s.exam || 'N/A'}</span>
+      </div>
       <div class="sec-count">${done}/${total}</div>
     </div>
     <div class="mini-track"><div class="mini-fill" style="width:${pct}%;background:${d.fill}"></div></div>
-    <div class="checklist">${itemsHtml}</div>
+    
+    <div class="checklist" ondragover="dragOver(event)" ondrop="drop(event, '${d.id}', ${si})">
+      ${itemsHtml}
+    </div>
+    <button class="add-btn" onclick="addItem('${d.id}', ${si})">+ Adicionar tópico</button>
   </div>`;
 }
 
-function renderItem(d, si, ii, label) {
-  const isDone = checked && !!checked[key(d.id, si, ii)];
-  return `<div class="item ${isDone ? 'done' : ''}" onclick="toggle('${d.id}',${si},${ii})">
-    <div class="cb"><svg class="cbchk" width="11" height="9" viewBox="0 0 11 9" fill="none">
-      <path d="M1 4.5L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg></div>
-    <div class="itext">${label}</div>
+function renderItem(d, si, item) {
+  return `<div class="item ${item.done ? 'done' : ''}" data-id="${item.id}" draggable="true" ondragstart="dragStart(event, '${d.id}', ${si}, '${item.id}')" onclick="toggle('${d.id}', ${si}, '${item.id}')">
+    <div class="cb"><svg class="cbchk" width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="itext">${item.label}</div>
+    <div class="item-actions">
+      <button class="del-btn" onclick="deleteItem(event, '${d.id}', ${si}, '${item.id}')">🗑️ Excluir</button>
+    </div>
   </div>`;
 }
 
@@ -588,75 +589,135 @@ function renderAll() {
   renderTabs();
   const panelsContainer = document.getElementById('panels');
   if (panelsContainer) {
-    panelsContainer.innerHTML =
-      `<div class="panel ${activeTab === 'resumo' ? 'active' : ''}" id="panel-resumo">${renderResumo()}</div>` +
-      DISCIPLINES.map(d => `<div class="panel ${activeTab === d.id ? 'active' : ''}" id="panel-${d.id}">${renderDiscPanel(d)}</div>`).join('');
+    panelsContainer.innerHTML = `<div class="panel ${activeTab === 'resumo' ? 'active' : ''}" id="panel-resumo">${renderResumo()}</div>` +
+      userDisciplines.map(d => `<div class="panel ${activeTab === d.id ? 'active' : ''}" id="panel-${d.id}">${renderDiscPanel(d)}</div>`).join('');
   }
   updateOverall();
 }
 
 function updateOverall() {
   const { done, total, pct } = overallStats();
-  const fillEl = document.getElementById('overall-fill');
-  const pctEl = document.getElementById('hdr-pct');
-  const ofEl = document.getElementById('hdr-of');
-  
-  if (fillEl) fillEl.style.width = pct + '%';
-  if (pctEl) pctEl.textContent = pct + '%';
-  if (ofEl) ofEl.textContent = `${done}/${total} tópicos`;
+  if(document.getElementById('overall-fill')) document.getElementById('overall-fill').style.width = pct + '%';
+  if(document.getElementById('hdr-pct')) document.getElementById('hdr-pct').textContent = pct + '%';
+  if(document.getElementById('hdr-of')) document.getElementById('hdr-of').textContent = `${done}/${total} tópicos`;
 }
 
-// ── INTERACTIONS ───────────────────────────────────────────
+// ── INTERACTIONS & NOVAS FUNÇÕES (EDIT, ADD, DEL, DRAG) ────
 function switchTab(id) {
   activeTab = id;
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('panel-'+id);
-  if (panel) { 
-    if(id === 'resumo') panel.innerHTML = renderResumo(); 
-    panel.classList.add('active'); 
-  }
+  if (panel) { if(id === 'resumo') panel.innerHTML = renderResumo(); panel.classList.add('active'); }
   renderTabs();
 }
 
-function toggle(dId, si, ii) {
-  const k = key(dId, si, ii);
-  if (!checked) checked = {};
-  checked[k] = !checked[k];
+function toggle(dId, si, itemId) {
+  let d = userDisciplines.find(x => x.id === dId);
+  let item = d.sections[si].items.find(i => i.id === itemId);
+  if(item) {
+    item.done = !item.done;
+    scheduleSave();
+    
+    // Atualiza apenas a sessão visualmente para evitar piscar toda a tela
+    const el = document.getElementById(`sec-${dId}-${si}`);
+    if (el) el.outerHTML = renderSection(d, d.sections[si], si);
+    
+    const dh = document.querySelector(`#panel-${dId} .disc-stats`);
+    if (dh) { const st = discStats(d); dh.textContent = `${st.done}/${st.total} tópicos`; }
+    
+    updateOverall();
+    renderTabs();
+    if (activeTab === 'resumo') { const rp = document.getElementById('panel-resumo'); if(rp) rp.innerHTML = renderResumo(); }
+  }
+}
+
+function updateTitle(dId, si, newTitle) {
+  let text = newTitle.trim();
+  if(!text) return; // ignora se tentar deixar vazio
+  let d = userDisciplines.find(x => x.id === dId);
+  
+  if (si === null) {
+     d.fullLabel = text; // Título da matéria
+  } else {
+     d.sections[si].title = text; // Título do bloco
+  }
   scheduleSave();
+  // Nao chamamos renderAll() direto para nao roubar o foco do cursor se a pessoa clicou em outro lugar
+}
+
+function addItem(dId, si) {
+  let text = prompt('Nome do novo tópico de estudo:');
+  if (!text || !text.trim()) return;
   
-  const d = DISCIPLINES.find(x => x.id === dId);
-  const el = document.getElementById(`sec-${dId}-${si}`);
-  if (el && d && d.sections[si]) el.outerHTML = renderSection(d, d.sections[si], si);
+  let d = userDisciplines.find(x => x.id === dId);
+  d.sections[si].items.push({ id: genId(), label: text.trim(), done: false });
+  scheduleSave();
+  renderAll();
+}
+
+function deleteItem(event, dId, si, itemId) {
+  event.stopPropagation(); // impede de marcar/desmarcar o item ao clicar na lixeira
+  if (!confirm('Tem certeza que deseja excluir este tópico?')) return;
   
-  const dh = document.querySelector(`#panel-${dId} .disc-stats`);
-  if (dh && d) { 
-    const st = discStats(d); 
-    dh.textContent = `${st.done}/${st.total} tópicos`; 
+  let d = userDisciplines.find(x => x.id === dId);
+  d.sections[si].items = d.sections[si].items.filter(i => i.id !== itemId);
+  scheduleSave();
+  renderAll();
+}
+
+// ── DRAG AND DROP ──────────────────────────────────────────
+function dragStart(e, dId, si, itemId) {
+  dragContext = { dId, si, itemId };
+  e.dataTransfer.setData('text/plain', itemId);
+  setTimeout(() => e.target.classList.add('dragging'), 0); // timeout pro navegador poder fazer o "ghost" da imagem original
+}
+
+function dragOver(e) {
+  e.preventDefault(); // Necessário para permitir o drop
+}
+
+function drop(e, targetDId, targetSi) {
+  e.preventDefault();
+  if (!dragContext) return;
+  if (dragContext.dId !== targetDId) {
+    alert("Só é possível arrastar tópicos entre blocos da mesma matéria.");
+    return;
   }
   
-  updateOverall();
-  renderTabs();
-  if (activeTab === 'resumo') { 
-    const rp = document.getElementById('panel-resumo'); 
-    if(rp) rp.innerHTML = renderResumo(); 
+  let d = userDisciplines.find(x => x.id === targetDId);
+  let sourceSec = d.sections[dragContext.si];
+  let targetSec = d.sections[targetSi];
+
+  let itemIndex = sourceSec.items.findIndex(i => i.id === dragContext.itemId);
+  if(itemIndex === -1) return;
+
+  let [movedItem] = sourceSec.items.splice(itemIndex, 1);
+
+  // Calcula se vai jogar no meio (baseado em onde soltou) ou no final da lista
+  let dropTarget = e.target.closest('.item');
+  if (dropTarget) {
+     let targetItemId = dropTarget.dataset.id;
+     let tIndex = targetSec.items.findIndex(i => i.id === targetItemId);
+     if (tIndex !== -1) {
+         targetSec.items.splice(tIndex, 0, movedItem);
+     } else {
+         targetSec.items.push(movedItem);
+     }
+  } else {
+     targetSec.items.push(movedItem); // Se soltou no vazio do bloco, vai pro final
   }
+
+  scheduleSave();
+  renderAll();
+  dragContext = null;
 }
 
 function resetDisc(dId) {
   if (!confirm(`Apagar todos os checks de ${dId}?`)) return;
-  Object.keys(checked).forEach(k => { if(k.startsWith(dId+'.')) delete checked[k]; });
+  let d = userDisciplines.find(x => x.id === dId);
+  d.sections.forEach(s => s.items.forEach(i => i.done = false));
   scheduleSave();
-  
-  const d = DISCIPLINES.find(x => x.id === dId);
-  const panel = document.getElementById('panel-'+dId);
-  if (panel && d) panel.innerHTML = renderDiscPanel(d);
-  
-  updateOverall();
-  renderTabs();
-  if (activeTab === 'resumo') { 
-    const rp = document.getElementById('panel-resumo'); 
-    if(rp) rp.innerHTML = renderResumo(); 
-  }
+  renderAll();
 }
 </script>
 </body>
