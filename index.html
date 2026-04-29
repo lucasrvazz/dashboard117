@@ -288,9 +288,21 @@ async function loadFromFirestore() {
       const data = snap.data();
       userDisciplines = data.userDisciplines || buildInitialData();
       userGrades = data.userGrades || { pi: '' };
-      userDisciplines.forEach(d => d.sections.forEach(s => s.items.forEach(i => {
-        if(typeof i.done === 'boolean' && i.status === undefined) i.status = i.done ? 3 : 0;
-      })));
+      
+      // MIGRATION: Injeta o array de provas caso você esteja vindo de uma versão antiga do site
+      userDisciplines.forEach(d => {
+        const templateDisc = TEMPLATE_DISCIPLINES.find(t => t.id === d.id);
+        if (!d.assessments && templateDisc) {
+          d.assessments = templateDisc.assessments;
+        }
+        // Migração do checkbox simples pro sistema de revisão
+        if (d.sections) {
+          d.sections.forEach(s => s.items.forEach(i => {
+            if(typeof i.done === 'boolean' && i.status === undefined) i.status = i.done ? 3 : 0;
+          }));
+        }
+      });
+      
     } else { userDisciplines = buildInitialData(); }
   } catch(e) { userDisciplines = buildInitialData(); }
 }
@@ -324,6 +336,9 @@ function getSubjectGrades(dId) {
 
 function calcSubjectMetrics(dId) {
   const d = userDisciplines.find(x => x.id === dId);
+  // Proteção extra caso alguma matéria nova seja criada e não tenha avaliações
+  if (!d || !d.assessments || d.assessments.length === 0) return { atual: "0.00", min: "0.00", max: "0.00", status: "Sem provas", cls: "" };
+  
   const grades = getSubjectGrades(dId);
   let totalSoma = 0, countPreenchido = 0;
   
@@ -339,7 +354,6 @@ function calcSubjectMetrics(dId) {
   
   let mediaAtual, subMin, subMax, targetNeeded;
 
-  // AJUSTE: Imaginologia não usa PI
   if(dId === 'imago') {
     mediaAtual = mediaParcialDasProvas;
     subMin = (totalSoma / totalProvas);
@@ -375,10 +389,14 @@ function getProgress(items) {
 
 function globalProgress() {
   let score = 0, max = 0;
-  userDisciplines.forEach(d => d.sections.forEach(s => {
-    const p = getProgress(s.items);
-    score += p.score; max += p.max;
-  }));
+  userDisciplines.forEach(d => {
+    if (d.sections) {
+      d.sections.forEach(s => {
+        const p = getProgress(s.items);
+        score += p.score; max += p.max;
+      });
+    }
+  });
   return { pct: max ? Math.round((score/max)*100) : 0 };
 }
 
@@ -438,13 +456,17 @@ function renderResumo() {
 function renderDiscPanel(d) {
   const grades = getSubjectGrades(d.id);
   const m = calcSubjectMetrics(d.id);
-  const inputsHtml = d.assessments.map(av => `
+  
+  const assessments = d.assessments || [];
+  const inputsHtml = assessments.map(av => `
     <div class="grade-box">
       <label>${av.label}</label>
       <input type="number" step="0.1" value="${grades[av.id]||''}" placeholder="--" onblur="updateGrade('${d.id}', '${av.id}', this.value)">
     </div>
   `).join('');
-  const sectionsHtml = d.sections.map((s,si) => renderSection(d,s,si)).join('');
+  
+  const sections = d.sections || [];
+  const sectionsHtml = sections.map((s,si) => renderSection(d,s,si)).join('');
   
   return `
     <div class="disc-header">
