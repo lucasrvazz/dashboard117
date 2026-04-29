@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist – MED 117 2026.1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f1f3d;--navy-light:#244080;
+  --teal:#0d9488;--teal-l:#14b8a6;
+  --sky:#0284c7;--violet:#7c3aed;--rose:#e11d48;
+  --slate:#64748b;--slate-l:#94a3b8;
+  --bg:#f1f5f9;--surface:#fff;--border:#e2e8f0;--text:#1e293b;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+
+/* ── LOADING ── */
+#loading-screen{position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),var(--navy-light));display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:16px}
+.spinner{width:38px;height:38px;border:3px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-txt{color:rgba(255,255,255,.5);font-size:.78rem;font-family:'DM Mono',monospace}
+
+/* ── LOGIN ── */
+#login-screen{display:none;position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),var(--navy-light));align-items:center;justify-content:center;padding:24px;z-index:999}
+.login-card{text-align:center;color:white;max-width:320px;width:100%}
+.login-emoji{font-size:2.8rem;margin-bottom:14px}
+.login-title{font-size:1.25rem;font-weight:700;margin-bottom:6px}
+.login-sub{font-size:.75rem;opacity:.5;margin-bottom:36px;font-family:'DM Mono',monospace}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;padding:13px 20px;background:white;color:#1e293b;border:none;border-radius:12px;font-size:.9rem;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.google-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.google-btn:active{transform:translateY(0)}
+.login-hint{font-size:.7rem;opacity:.35;margin-top:18px}
+
+/* ── APP ── */
+#app{display:none}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;padding:14px 24px 12px;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.hdr-r1{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.hdr-title{font-size:1rem;font-weight:700;letter-spacing:-.2px}
+.hdr-sub{font-size:.68rem;opacity:.5;font-family:'DM Mono',monospace;margin-top:1px}
+.hdr-user{display:flex;align-items:center;gap:8px}
+.avatar{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.3);font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.user-name{font-size:.75rem;opacity:.8}
+.sync-wrap{display:flex;align-items:center;gap:5px}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;transition:background .3s;flex-shrink:0}
+.sync-dot.saving{background:#60a5fa;animation:pulse .8s ease-in-out infinite}
+.sync-dot.error{background:#f87171}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.sync-lbl{font-size:.65rem;opacity:.55;font-family:'DM Mono',monospace}
+.signout-btn{font-size:.68rem;opacity:.4;cursor:pointer;background:none;border:none;color:white;font-family:'DM Sans',sans-serif;padding:0;transition:opacity .2s}
+.signout-btn:hover{opacity:.9}
+.hdr-r2{display:flex;align-items:center;gap:10px}
+.bar-track{flex:1;height:6px;background:rgba(255,255,255,.18);border-radius:10px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--teal-l),#34d399);border-radius:10px;transition:width .5s ease}
+.hdr-pct{font-size:.82rem;font-weight:700;font-family:'DM Mono',monospace;min-width:32px;text-align:right}
+.hdr-of{font-size:.65rem;opacity:.5;font-family:'DM Mono',monospace;white-space:nowrap}
+
+/* ── TABS ── */
+.tabs{display:flex;background:var(--surface);border-bottom:2px solid var(--border);padding:0 18px;overflow-x:auto;scrollbar-width:none;gap:2px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:12px 15px;font-size:.8rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--slate);white-space:nowrap;transition:all .2s;margin-bottom:-2px;display:flex;align-items:center;gap:6px;user-select:none}
+.tab:hover{color:var(--text)}
+.tab.t-resumo.active{color:var(--navy);border-color:var(--navy)}
+.tab.t-ced.active{color:var(--teal);border-color:var(--teal)}
+.tab.t-neo.active{color:var(--sky);border-color:var(--sky)}
+.tab.t-go.active{color:var(--violet);border-color:var(--violet)}
+.tab.t-pato.active{color:var(--rose);border-color:var(--rose)}
+.tab.t-imago.active{color:#d97706;border-color:#d97706}
+.tab-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tab-cnt{font-size:.66rem;font-family:'DM Mono',monospace;opacity:.6}
+
+/* ── PANELS ── */
+.panels{padding:20px 24px 60px;max-width:860px;margin:0 auto}
+.panel{display:none}.panel.active{display:block}
+
+/* ── RESUMO ── */
+.resumo-intro{font-size:.78rem;color:var(--slate);margin-bottom:16px;background:var(--surface);border-radius:10px;padding:10px 14px;border:1px solid var(--border)}
+.exam-row{background:var(--surface);border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,.06),0 0 0 1px var(--border);margin-bottom:9px;display:flex;align-items:stretch;overflow:hidden;transition:box-shadow .15s}
+.exam-row:hover{box-shadow:0 3px 12px rgba(0,0,0,.1),0 0 0 1px var(--border)}
+.exam-stripe{width:5px;flex-shrink:0}
+.exam-body{flex:1;padding:11px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.exam-date{font-size:.68rem;font-weight:700;font-family:'DM Mono',monospace;white-space:nowrap;min-width:65px;color:var(--slate)}
+.exam-name{flex:1;font-size:.83rem;font-weight:600;min-width:150px}
+.exam-bar-wrap{width:150px;display:flex;flex-direction:column;gap:4px}
+.exam-bar-bg{height:6px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.exam-bar-f{height:100%;border-radius:4px;transition:width .4s ease}
+.exam-bar-labels{display:flex;justify-content:space-between}
+.exam-pct{font-size:.7rem;font-weight:700;font-family:'DM Mono',monospace}
+.exam-cnt{font-size:.65rem;color:var(--slate);font-family:'DM Mono',monospace}
+.acc-tag{font-size:.6rem;background:#f1f5f9;color:var(--slate);border:1px solid var(--border);padding:1px 6px;border-radius:6px;white-space:nowrap;flex-shrink:0}
+.na-tag{font-size:.7rem;color:var(--slate-l);font-style:italic}
+.month-sep{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--slate-l);margin:16px 0 8px;padding-left:4px}
+
+/* ── DISCIPLINE ── */
+.disc-header{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.disc-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.disc-stats{font-size:.78rem;color:var(--slate);font-family:'DM Mono',monospace}
+.section{margin-bottom:22px}
+.sec-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:10px}
+.sec-title{font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:7px;flex-wrap:wrap;line-height:1.3}
+.exam-tag{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:6px;font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
+.sec-count{font-size:.72rem;color:var(--slate);font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
+.mini-track{height:3px;background:var(--border);border-radius:4px;margin-bottom:10px;overflow:hidden}
+.mini-fill{height:100%;border-radius:4px;transition:width .4s ease}
+.tag-red{background:#fee2e2;color:#b91c1c}
+.tag-amber{background:#fef3c7;color:#92400e}
+.tag-purple{background:#ede9fe;color:#5b21b6}
+.tag-green{background:#dcfce7;color:#166534}
+
+/* ── CHECKLIST ── */
+.checklist{background:var(--surface);border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,.06),0 0 0 1px var(--border);overflow:hidden}
+.item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid #f1f5f9;cursor:pointer;transition:background .12s;-webkit-tap-highlight-color:transparent;user-select:none}
+.item:last-child{border-bottom:none}
+.item:hover{background:#f8fafc}
+.item.done{background:#f0fdf4}
+.item.done .itext{color:#86efac;text-decoration:line-through;text-decoration-color:#4ade80}
+.cb{width:20px;height:20px;border:2px solid #cbd5e1;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s ease;margin-top:1px;background:white}
+.item.done .cb{background:#22c55e;border-color:#22c55e}
+.cbchk{opacity:0;transition:opacity .15s}
+.item.done .cbchk{opacity:1}
+.itext{font-size:.84rem;line-height:1.45;color:var(--text);flex:1}
+
+.note{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:10px 14px;font-size:.77rem;color:#78350f;margin-bottom:16px}
+.reset-btn{display:block;margin:0 auto 8px;padding:7px 16px;background:none;border:1px solid var(--border);border-radius:8px;font-size:.74rem;color:var(--slate);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.reset-btn:hover{background:#fee2e2;border-color:#fca5a5;color:#b91c1c}
+
+@media(max-width:600px){
+  .hdr{padding:12px 14px 10px}.panels{padding:14px 12px 60px}
+  .exam-bar-wrap{width:110px}.tabs{padding:0 8px}.exam-name{min-width:120px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="spinner"></div>
+  <div class="loading-txt">carregando...</div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-emoji">📚</div>
+    <div class="login-title">Checklist de Estudos</div>
+    <div class="login-sub">MED 117 · UnB · 2026.1</div>
+    <button class="google-btn" onclick="signIn()">
+      <svg width="18" height="18" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Entrar com Google
+    </button>
+    <div class="login-hint">Progresso sincronizado em todos os dispositivos</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="hdr">
+    <div class="hdr-r1">
+      <div>
+        <div class="hdr-title">📚 Checklist – 7º Semestre</div>
+        <div class="hdr-sub">MED 117 · UnB · 2026.1</div>
+      </div>
+      <div class="hdr-user">
+        <div class="sync-wrap">
+          <div class="sync-dot" id="sync-dot"></div>
+          <span class="sync-lbl" id="sync-lbl">salvo ✓</span>
+        </div>
+        <div class="avatar" id="user-avatar"></div>
+        <span class="user-name" id="user-name"></span>
+        <button class="signout-btn" onclick="doSignOut()">sair</button>
+      </div>
+    </div>
+    <div class="hdr-r2">
+      <div class="bar-track"><div class="bar-fill" id="overall-fill" style="width:0%"></div></div>
+      <div class="hdr-pct" id="hdr-pct">0%</div>
+      <div class="hdr-of" id="hdr-of">0/0 tópicos</div>
+    </div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="panels" id="panels"></div>
+</div>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  🔧 COLE AQUI OS DADOS DO SEU PROJETO FIREBASE
+//  (console.firebase.google.com → Configurações → Seus apps)
+// ══════════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "AIzaSyBf3ZgjZ4W_Vr2XaWRHurU2I3cDpJeLLFs",
+  authDomain:        "checklist-d7a01.firebaseapp.com",
+  projectId:         "checklist-d7a01",
+  storageBucket:     "checklist-d7a01.firebasestorage.app",
+  messagingSenderId: "829528262319",
+  appId:             "1:829528262319:web:8929dc37ecd62e8a8c765a"
+};
+// ══════════════════════════════════════════════════════════
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+db.enablePersistence().catch(() => {});  // funciona offline também
+
+// ── DATA ──────────────────────────────────────────────────
+const DISCIPLINES = [
+  {
+    id:'ced', label:'CeD', emoji:'👶', fullLabel:'Crescimento e Desenvolvimento',
+    color:'#0d9488', fill:'#14b8a6',
+    sections:[
+      { title:'1ª Avaliação Teórica', exam:'04/05', tagClass:'tag-red',
+        items:['Semiologia Pediátrica – A Consulta em Pediatria','Crescimento na primeira infância e sua avaliação','Aleitamento Materno e Nutrição no primeiro ano de vida','Imunização na primeira Infância','Desenvolvimento neuromotor no primeiro ano de vida','Transtornos do Desenvolvimento na infância']},
+      { title:'2ª Avaliação Teórica – novos conteúdos', exam:'29/06', tagClass:'tag-purple',
+        items:['Principais Acidentes na Infância e sua Prevenção','Síndromes Genéticas na primeira infância','Problemas Auditivos na Infância','Anemia Ferropriva na infância','Doenças Respiratórias Prevalentes e Alergias','Principais Doenças Gastrointestinais na primeira infância','Imunodeficiências na Infância']},
+      { title:'Habilidades Práticas – 08, 15 e 22/06', exam:'08–22/06', tagClass:'tag-amber',
+        items:['Anamnese pediátrica completa (história clínica)','Exame físico da criança – neonato à fase pré-escolar','Avaliação antropométrica e gráficos de crescimento','Caderneta da Criança – preenchimento e interpretação','Avaliação do desenvolvimento neuromotor (testes de triagem)','Avaliação do estado nutricional','Discussão de caso clínico com professor (Mini-CEX)']},
+      { title:'Prova Prática – Mini-CEX (13/07)', exam:'13/07', tagClass:'tag-green',
+        items:['Consulta individual observada e arguida por professor','Domínio completo da semiologia pediátrica','Formulação de hipóteses e condutas (prontuário AGHU)']},
+    ]
+  },
+  {
+    id:'neo', label:'Neonato', emoji:'🏥', fullLabel:'Módulo Neonatologia',
+    color:'#0284c7', fill:'#38bdf8',
+    sections:[
+      { title:'1ª Prova Teórica', exam:'20/05', tagClass:'tag-red',
+        items:['Fisiologia cardiovascular e respiratória do feto e do neonato','Cuidados ao recém-nascido normal','Hipóxia e reanimação neonatal','Distúrbios metabólicos do RN','Infecção Aguda – Sepse Neonatal','Icterícia e incompatibilidade sanguínea materno-fetal','Distúrbios respiratórios I','Distúrbios respiratórios II']},
+      { title:'2ª Prova Teórica – novos conteúdos', exam:'08/07', tagClass:'tag-purple',
+        items:['Infecções Crônicas – Sífilis Congênita','Infecções Crônicas – Toxoplasmose Congênita','Recém-nascido pré-termo I','Recém-nascido pré-termo II – Prematuridade','Distúrbios Neurológicos no RN','Conduta Pediátrica nas Malformações Congênitas']},
+      { title:'Prova Prática – OSCE / Key Features (06–10/07)', exam:'06–10/07', tagClass:'tag-green',
+        items:['Simulação Realística: Reanimação Neonatal (Lab. HUB)','Simulação Realística: Icterícia Neonatal (Lab. HUB)','Caso Clínico: Ficha perinatal e Acolhimento','Prática: Exame Físico do Recém-Nascido (ALCON)','Caso Clínico: Distúrbios Metabólicos','Caso Clínico: Sepse Neonatal','Caso Clínico: Distúrbios Respiratórios','Caso Clínico: Sífilis Congênita','Caso Clínico: Toxoplasmose Congênita','Discussão Clínica: Prematuridade','Discussão Clínica: Distúrbios Neurológicos']},
+    ]
+  },
+  {
+    id:'go', label:'GO', emoji:'🩺', fullLabel:'Ginecologia & Obstetrícia',
+    color:'#7c3aed', fill:'#a78bfa',
+    note:'Provas de Ginecologia e Obstetrícia são unificadas (1ª em 07/05, 2ª em 03/07).',
+    sections:[
+      { title:'Ginecologia – conteúdo p/ 1ª Prova (07/05)', exam:'07/05', tagClass:'tag-red',
+        items:['Anatomia do Trato Genital Feminino','Anamnese e Exame Físico Ginecológico','Ciclo menstrual','Desenvolvimento puberal normal e anormal','Amenorreias','Endometriose','Dor Pélvica','Síndrome dos Ovários Policísticos (SOP)','Infertilidade','Vulvovaginites e Cervicites','Contracepção I','Patologia benigna e maligna do ovário']},
+      { title:'Obstetrícia – conteúdo p/ 1ª Prova (07/05)', exam:'07/05', tagClass:'tag-red',
+        items:['Avaliação pré-concepcional','Diagnóstico de gravidez e desenvolvimento embrionário','Endocrinologia da gravidez e trocas materno-ovulares','Fisiologia Materna na gravidez','Pré-natal','Mecanismos e assistência ao parto normal','Distocias','Puerpério Normal e Patológico','Amamentação e Distúrbios da Amamentação','Sangramento vaginal 1ª metade – Abortamento','Sangramento vaginal 1ª metade – Gestação Ectópica e DTG','Sangramento vaginal 2ª metade – DPP, Placenta Prévia, Vasa Prévia','Estatísticas Vitais']},
+      { title:'Ginecologia – novos conteúdos p/ 2ª Prova (03/07)', exam:'03/07', tagClass:'tag-purple',
+        items:['Cirurgia ginecológica','Contracepção II','Patologia benigna da mama','Climatério e Menopausa','Câncer do corpo uterino (endométrio)','Sangramento Uterino Anormal','Patologia maligna da mama','Patologias Benignas do colo uterino','Câncer do colo uterino','Úlceras genitais e patologia maligna da vulva','Avaliação e acompanhamento de pessoas trans']},
+      { title:'Obstetrícia – novos conteúdos p/ 2ª Prova (03/07)', exam:'03/07', tagClass:'tag-purple',
+        items:['Violência Obstétrica','RPMO – Rotura Prematura de Membranas Ovulares','Trabalho de parto pré-termo','Infecções na gestação: ITU e Streptococcus do Grupo B','Infecções na gestação: Toxoplasmose e HIV','Diabetes e Gestação','Infecções na gestação: Sífilis','Síndromes Hipertensivas da Gestação','Doença Hemolítica Perinatal','Avaliação do crescimento e vitalidade fetal','Síndrome da Insuficiência Placentária / CIUR','Gemelaridade','Bioética em Obstetrícia','Distopias e Incontinência Urinária']},
+      { title:'Avaliação Prática com manequins (26/06)', exam:'26/06', tagClass:'tag-green',
+        items:['Simulação Ginecologia – Lab. HUB: 1ª atividade (março)','Simulação Ginecologia – Lab. HUB: 2ª atividade (maio)','Simulação Obstetrícia – Lab. HUB (abril)','Prática: Ambulatório de Pré-Natal (rodízios 1 a 4)','Prática: Enfermaria da Maternidade (rodízios 1 a 4)','Prática: Pronto Socorro da Obstetrícia (rodízios 1 a 4)','Prática: Centro Obstétrico (rodízios 1 a 4)']},
+    ]
+  },
+  {
+    id:'pato', label:'Pato 3', emoji:'🔬', fullLabel:'Patologia Sistêmica 3',
+    color:'#e11d48', fill:'#fb7185',
+    sections:[
+      { title:'Útero – Pré-teste (25/03) + TBL', exam:'25/03', tagClass:'tag-red',
+        items:['Anatomia e histologia do útero e colo uterino','Endometrite aguda e crônica','Adenomiose e endometriose uterina','Leiomioma – tipos e morfologia macroscópica e microscópica','Hiperplasia endometrial – classificação (sem/com atipias)','Carcinoma do endométrio – tipos I (endometrioide) e II (seroso)','Lesões benignas do colo: ectopia, metaplasia escamosa, pólipo cervical','NIC / CIN: LSIL, HSIL – infecção por HPV e patogênese','Carcinoma escamocelular do colo uterino','Adenocarcinoma do colo uterino','Colpocitologia – Sistema Bethesda e interpretação de laudos','Análise de peças macroscópicas e lâminas de útero (ULEG)']},
+      { title:'Mama – Pré-teste (29/04) + TBL', exam:'29/04', tagClass:'tag-amber',
+        items:['Anatomia e histologia da mama','Alterações fibrocísticas (metaplasia apócrina, adenose, fibrose)','Fibroadenoma e tumor Phyllodes','Papiloma intraductal e ectasia ductal','Carcinoma ductal in situ (CDIS) – subtipos histológicos','Carcinoma lobular in situ (CLIS)','Carcinoma ductal invasivo (NST) – grau histológico (Nottingham/SBR)','Carcinoma lobular invasivo e variantes','Subtipos moleculares: Luminal A, Luminal B, HER2+, Triplo-negativo','Doença de Paget da mama e carcinoma inflamatório','Estadiamento TNM e fatores prognósticos do câncer de mama','Análise de peças macroscópicas e lâminas de mama (ULEG)']},
+      { title:'Ovário e Tuba – Pré-teste (27/05) + TBL', exam:'27/05', tagClass:'tag-purple',
+        items:['Anatomia e histologia do ovário e trompas','Cistos funcionais (folicular, corpo lúteo) e SOP – morfologia','Tumores epiteliais serosos: cistoadenoma, borderline, carcinoma de alto grau','Tumores mucinosos do ovário: cistoadenoma e carcinoma mucinoso','Tumores endometrioides e carcinoma de células claras do ovário','Tumor de Brenner','Tumores de células germinativas: teratoma maduro e imaturo','Tumores de células germinativas: disgerminoma e tumor do seio endodérmico','Tumores do cordão sexual-estroma: granulosa, tecoma, fibroma, Sertoli-Leydig','Tumor de Krukenberg (metástase ovariana)','Salpingite aguda e crônica; gravidez ectópica – anatomopatologia','Análise de peças e lâminas de ovário/tuba (ULEG)']},
+      { title:'Doenças da Gravidez – Questionário Final (24/06)', exam:'24/06', tagClass:'tag-green',
+        items:['Mola hidatiforme completa – cariotipo e morfologia','Mola hidatiforme parcial – cariotipo e morfologia','Mola invasora e coriocarcinoma','PSTT (tumor trofoblástico do sítio placentário) e ETT','Anomalias de implantação placentária (acreta, increta, percreta)','Aborto espontâneo – causas e achados anatomopatológicos','Pré-eclâmpsia, eclâmpsia e HELLP – lesões anatomopatológicas']},
+    ]
+  },
+  {
+    id:'imago', label:'Imago', emoji:'🩻', fullLabel:'Imaginologia (FMD0110)',
+    color:'#d97706', fill:'#fbbf24',
+    note:'Média Final = (P1+P2+P3+P4)/4. P4 é cumulativa. Substitutiva cobre toda a matéria e limita menção a MM.',
+    sections:[
+      { title:'Prova 1 – 13/04', exam:'13/04', tagClass:'tag-red',
+        items:[
+          'Física dos métodos de imagem – Parte 1 (RX, fluoroscopia, mamografia)',
+          'Física dos métodos de imagem – Parte 2 (TC, RM, US, Medicina Nuclear)',
+          'Contrastes radiológicos: iodados e gadolínio – indicações e contraindicações',
+          'Proteção radiológica: efeitos biológicos e princípios ALARA',
+          'Tórax 1 – Anatomia radiológica e abordagem sistemática da RX de tórax',
+          'Tórax 2 – Padrões semiológicos: consolidação, atelectasia, derrame, pneumotórax',
+          'Tórax 3 – Nódulo pulmonar, massas mediastinais, cardiomegalia',
+          'Mama – Mamografia, US e RM: indicações, Bi-RADS e achados'
+        ]
+      },
+      { title:'Prova 2 – 11/05 (novos conteúdos)', exam:'11/05', tagClass:'tag-amber',
+        items:[
+          'Neurorradiologia 1 – Anatomia em TC e RM, AVC isquêmico e hemorrágico',
+          'Neurorradiologia 2 – Tumores cerebrais, hidrocefalia, infecções do SNC',
+          'Coluna vertebral – Hérnia de disco, estenose do canal, trauma raquimedular',
+          'Obstetrícia – US obstétrica: datação, morfológico, Doppler e placentação',
+          'Pediatria – RX de tórax e abdome pediátrico; achados típicos',
+          'Radiologia da cabeça e pescoço – Seios da face, órbita, pescoço (TC/RM/US)'
+        ]
+      },
+      { title:'Prova 3 – 22/06 (novos conteúdos)', exam:'22/06', tagClass:'tag-purple',
+        items:[
+          'Abdome e pelve 1 – US abdominal: fígado, vesícula biliar e vias biliares',
+          'Abdome e pelve 2 – TC/RM: pâncreas, baço e retroperitônio',
+          'Abdome e pelve 3 – Trato gastrointestinal: oclusão, apendicite, diverticulite',
+          'Abdome e pelve 4 – Rim, bexiga, próstata, útero e ovários por imagem',
+          'Vascular – US Doppler, angio-TC e angio-RM: DAP, TVP, aneurisma de aorta',
+          'Músculo-esquelético 1 – Trauma: fraturas, luxações e lesões ligamentares',
+          'Músculo-esquelético 2 – Tumores ósseos, artrites, necrose avascular',
+          'Densitometria Óssea – DXA: indicações, laudos e classificação OMS',
+          'Aula prática de US – sessão 1 (10/06): técnica e anatomia sonográfica',
+          'Aula prática de US – sessão 2 (15/06): abdome e pelve',
+          'Aula prática de US – sessão 3 (17/06): casos clínicos integrados'
+        ]
+      },
+      { title:'Prova Final (P4) – 29/06 · TODO O CONTEÚDO', exam:'29/06', tagClass:'tag-green',
+        items:[
+          'Revisão: Física e princípios dos métodos de imagem',
+          'Revisão: Contrastes e proteção radiológica',
+          'Revisão: Tórax e Mama',
+          'Revisão: Neurorradiologia e Coluna vertebral',
+          'Revisão: Obstetrícia, Pediatria e Cabeça/Pescoço',
+          'Revisão: Abdome e Pelve (4 aulas)',
+          'Revisão: Vascular e Músculo-esquelético',
+          'Revisão: Densitometria Óssea e US prática'
+        ]
+      },
+    ]
+  }
+];
+
+const EXAM_MAP = [
+  {date:'25/03',full:'Pato 3 – Pré-teste Útero',cls:'pato',month:'MAR',refs:[{d:'pato',s:0}]},
+  {date:'13/04',full:'Imaginologia – Prova 1',cls:'imago',month:'ABR',refs:[{d:'imago',s:0}]},
+  {date:'29/04',full:'Pato 3 – Pré-teste Mama',cls:'pato',month:'ABR',refs:[{d:'pato',s:1}]},
+  {date:'04/05',full:'CeD – 1ª Avaliação Teórica',cls:'ced',month:'MAI',refs:[{d:'ced',s:0}]},
+  {date:'07/05',full:'GO – 1ª Avaliação Teórica (Gin + Obs)',cls:'go',month:'MAI',refs:[{d:'go',s:0},{d:'go',s:1}]},
+  {date:'11/05',full:'Imaginologia – Prova 2',cls:'imago',month:'MAI',refs:[{d:'imago',s:1}]},
+  {date:'20/05',full:'Neonato – 1ª Prova Teórica',cls:'neo',month:'MAI',refs:[{d:'neo',s:0}]},
+  {date:'27/05',full:'Pato 3 – Pré-teste Ovário/Tuba',cls:'pato',month:'MAI',refs:[{d:'pato',s:2}]},
+  {date:'08–22/06',full:'CeD – Habilidades Práticas',cls:'ced',month:'JUN',refs:[{d:'ced',s:2}]},
+  {date:'22/06',full:'Imaginologia – Prova 3',cls:'imago',month:'JUN',refs:[{d:'imago',s:2}]},
+  {date:'23/06',full:'SFC – Avaliação Escrita',cls:'sfc',month:'JUN',refs:[],note:'Ementa de SFC não incluída'},
+  {date:'24/06',full:'Pato 3 – Questionário Final (útero + mama + ovário/tuba + gravidez)',cls:'pato',month:'JUN',refs:[{d:'pato',s:0},{d:'pato',s:1},{d:'pato',s:2},{d:'pato',s:3}],accumulated:true},
+  {date:'26/06',full:'GO – Avaliação Prática (manequins)',cls:'go',month:'JUN',refs:[{d:'go',s:4}]},
+  {date:'29/06',full:'CeD – 2ª Avaliação Teórica (acumulativo)',cls:'ced',month:'JUN',refs:[{d:'ced',s:0},{d:'ced',s:1}],accumulated:true},
+  {date:'29/06',full:'Imaginologia – Prova Final / P4 (acumulativo)',cls:'imago',month:'JUN',refs:[{d:'imago',s:0},{d:'imago',s:1},{d:'imago',s:2},{d:'imago',s:3}],accumulated:true},
+  {date:'30/06–01/07',full:'Seminário Integrador – todas as UDPs',cls:'sfc',month:'JUN–JUL',refs:[],note:'Atividade integradora'},
+  {date:'03/07',full:'GO – 2ª Avaliação Teórica (Gin + Obs, acumulativo)',cls:'go',month:'JUL',refs:[{d:'go',s:0},{d:'go',s:1},{d:'go',s:2},{d:'go',s:3}],accumulated:true},
+  {date:'06–10/07',full:'Neonato – Prova Prática (OSCE/Key Features)',cls:'neo',month:'JUL',refs:[{d:'neo',s:2}]},
+  {date:'08/07',full:'Neonato – 2ª Prova Teórica (acumulativo)',cls:'neo',month:'JUL',refs:[{d:'neo',s:0},{d:'neo',s:1}],accumulated:true},
+  {date:'13/07',full:'CeD – Prova Prática (Mini-CEX)',cls:'ced',month:'JUL',refs:[{d:'ced',s:3}]},
+];
+
+const COLORS={ced:'#0d9488',neo:'#0284c7',go:'#7c3aed',pato:'#e11d48',sfc:'#94a3b8',imago:'#d97706'};
+const FILLS ={ced:'#14b8a6',neo:'#38bdf8',go:'#a78bfa',pato:'#fb7185',sfc:'#cbd5e1',imago:'#fbbf24'};
+
+// ── STATE ──────────────────────────────────────────────────
+let checked = {};
+let activeTab = 'resumo';
+let currentUser = null;
+let saveTimer = null;
+
+// ── AUTH ───────────────────────────────────────────────────
+auth.onAuthStateChanged(async user => {
+  if (user) {
+    currentUser = user;
+    updateUserUI(user);
+    await loadFromFirestore();
+    showScreen('app');
+    renderAll();
+  } else {
+    showScreen('login');
+  }
+});
+
+function signIn() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch(e => alert('Erro ao entrar: ' + e.message));
+}
+
+function doSignOut() {
+  if (!confirm('Sair da conta?')) return;
+  auth.signOut();
+  checked = {};
+  showScreen('login');
+}
+
+function updateUserUI(user) {
+  const av = document.getElementById('user-avatar');
+  document.getElementById('user-name').textContent = (user.displayName || user.email || '').split(' ')[0];
+  av.innerHTML = user.photoURL
+    ? `<img src="${user.photoURL}" alt="">`
+    : (user.displayName || 'U').charAt(0).toUpperCase();
+}
+
+function showScreen(which) {
+  document.getElementById('loading-screen').style.display = which === 'loading' ? 'flex' : 'none';
+  document.getElementById('login-screen').style.display  = which === 'login'   ? 'flex' : 'none';
+  document.getElementById('app').style.display           = which === 'app'     ? 'block': 'none';
+}
+
+// ── FIRESTORE ──────────────────────────────────────────────
+async function loadFromFirestore() {
+  try {
+    const snap = await db.collection('users').doc(currentUser.uid).collection('checklist').doc('data').get();
+    if (snap.exists) checked = snap.data().checked || {};
+  } catch(e) { console.error('Load error', e); }
+}
+
+function scheduleSave() {
+  setSyncStatus('saving');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try {
+      await db.collection('users').doc(currentUser.uid).collection('checklist').doc('data')
+        .set({ checked, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+      setSyncStatus('saved');
+    } catch(e) { setSyncStatus('error'); }
+  }, 800);
+}
+
+function setSyncStatus(s) {
+  const dot = document.getElementById('sync-dot');
+  const lbl = document.getElementById('sync-lbl');
+  if (!dot) return;
+  dot.className = 'sync-dot' + (s === 'saving' ? ' saving' : s === 'error' ? ' error' : '');
+  lbl.textContent = s === 'saving' ? 'salvando...' : s === 'error' ? 'erro ✕' : 'salvo ✓';
+}
+
+// ── HELPERS ────────────────────────────────────────────────
+const key = (d,s,i) => `${d}.${s}.${i}`;
+
+function secStats(dId, si, items) {
+  let done = 0;
+  items.forEach((_,i) => { if(checked[key(dId,si,i)]) done++; });
+  return { done, total: items.length };
+}
+
+function examStats(exam) {
+  if (!exam.refs.length) return null;
+  let done = 0, total = 0;
+  exam.refs.forEach(({d,s}) => {
+    const disc = DISCIPLINES.find(x=>x.id===d);
+    if (!disc?.sections[s]) return;
+    const st = secStats(d, s, disc.sections[s].items);
+    done += st.done; total += st.total;
+  });
+  return { done, total, pct: total ? Math.round(done/total*100) : 0 };
+}
+
+function overallStats() {
+  let done = 0, total = 0;
+  DISCIPLINES.forEach(d => d.sections.forEach((s,si) => {
+    const st = secStats(d.id, si, s.items);
+    done += st.done; total += st.total;
+  }));
+  return { done, total, pct: total ? Math.round(done/total*100) : 0 };
+}
+
+function discStats(d) {
+  let done = 0, total = 0;
+  d.sections.forEach((s,si) => { const st = secStats(d.id,si,s.items); done+=st.done; total+=st.total; });
+  return { done, total };
+}
+
+// ── RENDER TABS ────────────────────────────────────────────
+function renderTabs() {
+  const all = [
+    { id:'resumo', label:'Resumo', emoji:'📊', cls:'resumo', dot:'#0f1f3d' },
+    ...DISCIPLINES.map(d => ({ id:d.id, label:d.label, emoji:d.emoji, cls:d.id, dot:d.color, stats:discStats(d) }))
+  ];
+  document.getElementById('tabs').innerHTML = all.map(t => {
+    const active = t.id === activeTab ? `t-${t.cls} active` : '';
+    const cnt = t.stats ? `<span class="tab-cnt">${t.stats.done}/${t.stats.total}</span>` : '';
+    return `<div class="tab t-${t.cls} ${active}" onclick="switchTab('${t.id}')">
+      <span class="tab-dot" style="background:${t.dot}"></span>${t.emoji} ${t.label}${cnt}</div>`;
+  }).join('');
+}
+
+// ── RENDER RESUMO ──────────────────────────────────────────
+function renderResumo() {
+  let prevMonth = '';
+  const rows = EXAM_MAP.map(exam => {
+    const stats = examStats(exam);
+    const color = COLORS[exam.cls] || '#94a3b8';
+    const fill  = FILLS[exam.cls]  || '#cbd5e1';
+    let sep = '';
+    if (exam.month !== prevMonth) { sep = `<div class="month-sep">— ${exam.month}</div>`; prevMonth = exam.month; }
+    const progress = !stats
+      ? `<span class="na-tag">${exam.note || '–'}</span>`
+      : `<div class="exam-bar-wrap">
+          <div class="exam-bar-bg"><div class="exam-bar-f" style="width:${stats.pct}%;background:${fill}"></div></div>
+          <div class="exam-bar-labels">
+            <span class="exam-pct" style="color:${color}">${stats.pct}%</span>
+            <span class="exam-cnt">${stats.done}/${stats.total} tópicos</span>
+          </div></div>`;
+    const acc = exam.accumulated ? '<span class="acc-tag">acumulativo</span>' : '';
+    return `${sep}<div class="exam-row">
+      <div class="exam-stripe" style="background:${color}"></div>
+      <div class="exam-body">
+        <div class="exam-date">${exam.date}</div>
+        <div class="exam-name">${exam.full} ${acc}</div>
+        ${progress}
+      </div></div>`;
+  }).join('');
+  return `<div class="resumo-intro">ℹ️ Cada barra mostra o % dos tópicos daquela avaliação já estudados. Provas <b>acumulativas</b> somam o conteúdo de provas anteriores.</div>${rows}`;
+}
+
+// ── RENDER DISCIPLINE ──────────────────────────────────────
+function renderDiscPanel(d) {
+  const { done, total } = discStats(d);
+  return `
+    <div class="disc-header">
+      <div class="disc-title" style="color:${d.color}">${d.emoji} ${d.fullLabel}</div>
+      <div class="disc-stats">${done}/${total} tópicos</div>
+    </div>
+    ${d.note ? `<div class="note">ℹ️ ${d.note}</div>` : ''}
+    ${d.sections.map((s,si) => renderSection(d,s,si)).join('')}
+    <button class="reset-btn" onclick="resetDisc('${d.id}')">🗑 Limpar checks de ${d.label}</button>`;
+}
+
+function renderSection(d, s, si) {
+  const { done, total } = secStats(d.id, si, s.items);
+  const pct = total ? Math.round(done/total*100) : 0;
+  return `<div class="section" id="sec-${d.id}-${si}">
+    <div class="sec-head">
+      <div class="sec-title">${s.title}<span class="exam-tag ${s.tagClass}">📅 ${s.exam}</span></div>
+      <div class="sec-count">${done}/${total}</div>
+    </div>
+    <div class="mini-track"><div class="mini-fill" style="width:${pct}%;background:${d.fill}"></div></div>
+    <div class="checklist">${s.items.map((item,ii) => renderItem(d,si,ii,item)).join('')}</div>
+  </div>`;
+}
+
+function renderItem(d, si, ii, label) {
+  const done = !!checked[key(d.id, si, ii)];
+  return `<div class="item ${done?'done':''}" onclick="toggle('${d.id}',${si},${ii})">
+    <div class="cb"><svg class="cbchk" width="11" height="9" viewBox="0 0 11 9" fill="none">
+      <path d="M1 4.5L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg></div>
+    <div class="itext">${label}</div>
+  </div>`;
+}
+
+function renderAll() {
+  renderTabs();
+  document.getElementById('panels').innerHTML =
+    `<div class="panel ${activeTab==='resumo'?'active':''}" id="panel-resumo">${renderResumo()}</div>` +
+    DISCIPLINES.map(d => `<div class="panel ${activeTab===d.id?'active':''}" id="panel-${d.id}">${renderDiscPanel(d)}</div>`).join('');
+  updateOverall();
+}
+
+function updateOverall() {
+  const { done, total, pct } = overallStats();
+  document.getElementById('overall-fill').style.width = pct + '%';
+  document.getElementById('hdr-pct').textContent = pct + '%';
+  document.getElementById('hdr-of').textContent = `${done}/${total} tópicos`;
+}
+
+// ── INTERACTIONS ───────────────────────────────────────────
+function switchTab(id) {
+  activeTab = id;
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-'+id);
+  if (panel) { if(id==='resumo') panel.innerHTML = renderResumo(); panel.classList.add('active'); }
+  renderTabs();
+}
+
+function toggle(dId, si, ii) {
+  const k = key(dId, si, ii);
+  checked[k] = !checked[k];
+  scheduleSave();
+  const d = DISCIPLINES.find(x=>x.id===dId);
+  const el = document.getElementById(`sec-${dId}-${si}`);
+  if (el) el.outerHTML = renderSection(d, d.sections[si], si);
+  const dh = document.querySelector(`#panel-${dId} .disc-stats`);
+  if (dh) { const st = discStats(d); dh.textContent = `${st.done}/${st.total} tópicos`; }
+  updateOverall();
+  renderTabs();
+  if (activeTab==='resumo') { const rp=document.getElementById('panel-resumo'); if(rp) rp.innerHTML=renderResumo(); }
+}
+
+function resetDisc(dId) {
+  if (!confirm(`Apagar todos os checks de ${dId}?`)) return;
+  Object.keys(checked).forEach(k => { if(k.startsWith(dId+'.')) delete checked[k]; });
+  scheduleSave();
+  const d = DISCIPLINES.find(x=>x.id===dId);
+  document.getElementById('panel-'+dId).innerHTML = renderDiscPanel(d);
+  updateOverall();
+  renderTabs();
+  if (activeTab==='resumo') { const rp=document.getElementById('panel-resumo'); if(rp) rp.innerHTML=renderResumo(); }
+}
+</script>
+</body>
+</html>
