@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checklist – MED 117 2026.1</title>
+<title>Dashboard – MED 117 2026.1</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -17,11 +17,11 @@
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
 
 /* ── LOADING & LOGIN ── */
-#loading-screen{position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),var(--navy-light));display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:16px}
+#loading-screen, #login-screen{position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),var(--navy-light));display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:16px}
+#login-screen{display:none;padding:24px;z-index:999}
 .spinner{width:38px;height:38px;border:3px solid rgba(255,255,255,.2);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-txt{color:rgba(255,255,255,.5);font-size:.78rem;font-family:'DM Mono',monospace}
-#login-screen{display:none;position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),var(--navy-light));align-items:center;justify-content:center;padding:24px;z-index:999}
 .login-card{text-align:center;color:white;max-width:320px;width:100%}
 .login-emoji{font-size:2.8rem;margin-bottom:14px}
 .login-title{font-size:1.25rem;font-weight:700;margin-bottom:6px}
@@ -46,12 +46,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .sync-lbl{font-size:.65rem;opacity:.55;font-family:'DM Mono',monospace}
 .signout-btn{font-size:.68rem;opacity:.4;cursor:pointer;background:none;border:none;color:white;font-family:'DM Sans',sans-serif;padding:0;transition:opacity .2s}
-.signout-btn:hover{opacity:.9}
-.hdr-r2{display:flex;align-items:center;gap:10px}
-.bar-track{flex:1;height:6px;background:rgba(255,255,255,.18);border-radius:10px;overflow:hidden}
-.bar-fill{height:100%;background:linear-gradient(90deg,var(--teal-l),#34d399);border-radius:10px;transition:width .5s ease}
-.hdr-pct{font-size:.82rem;font-weight:700;font-family:'DM Mono',monospace;min-width:32px;text-align:right}
-.hdr-of{font-size:.65rem;opacity:.5;font-family:'DM Mono',monospace;white-space:nowrap}
 
 /* ── TABS ── */
 .tabs{display:flex;background:var(--surface);border-bottom:2px solid var(--border);padding:0 18px;overflow-x:auto;scrollbar-width:none;gap:2px}
@@ -64,100 +58,101 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .tab.t-go.active{color:var(--violet);border-color:var(--violet)}
 .tab.t-pato.active{color:var(--rose);border-color:var(--rose)}
 .tab.t-imago.active{color:#d97706;border-color:#d97706}
+.tab.t-sfc.active{color:#059669;border-color:#059669}
 .tab-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.tab-cnt{font-size:.66rem;font-family:'DM Mono',monospace;opacity:.6}
 
-/* ── PANELS & RESUMO ── */
-.panels{padding:20px 24px 60px;max-width:860px;margin:0 auto}
+/* ── PANELS & DASHBOARD ── */
+.panels{padding:20px 24px 60px;max-width:960px;margin:0 auto}
 .panel{display:none}.panel.active{display:block}
-.resumo-intro{font-size:.78rem;color:var(--slate);margin-bottom:16px;background:var(--surface);border-radius:10px;padding:10px 14px;border:1px solid var(--border)}
-.exam-row{background:var(--surface);border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,.06),0 0 0 1px var(--border);margin-bottom:9px;display:flex;align-items:stretch;overflow:hidden;transition:box-shadow .15s}
-.exam-row:hover{box-shadow:0 3px 12px rgba(0,0,0,.1),0 0 0 1px var(--border)}
-.exam-stripe{width:5px;flex-shrink:0}
-.exam-body{flex:1;padding:11px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.exam-date{font-size:.68rem;font-weight:700;font-family:'DM Mono',monospace;white-space:nowrap;min-width:65px;color:var(--slate)}
-.exam-name{flex:1;font-size:.83rem;font-weight:600;min-width:150px}
-.exam-bar-wrap{width:150px;display:flex;flex-direction:column;gap:4px}
-.exam-bar-bg{height:6px;background:#e2e8f0;border-radius:4px;overflow:hidden}
-.exam-bar-f{height:100%;border-radius:4px;transition:width .4s ease}
-.exam-bar-labels{display:flex;justify-content:space-between}
-.exam-pct{font-size:.7rem;font-weight:700;font-family:'DM Mono',monospace}
-.exam-cnt{font-size:.65rem;color:var(--slate);font-family:'DM Mono',monospace}
-.acc-tag{font-size:.6rem;background:#f1f5f9;color:var(--slate);border:1px solid var(--border);padding:1px 6px;border-radius:6px;white-space:nowrap;flex-shrink:0}
-.na-tag{font-size:.7rem;color:var(--slate-l);font-style:italic}
-.month-sep{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--slate-l);margin:16px 0 8px;padding-left:4px}
 
-/* ── DISCIPLINE & NEW FEATURES (EDIT, DRAG, ADD, DEL) ── */
-.disc-header{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
-.disc-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
-.disc-stats{font-size:.78rem;color:var(--slate);font-family:'DM Mono',monospace}
+/* Countdown & Overview */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:768px){.dash-grid{grid-template-columns:1fr}}
+.dash-card{background:var(--surface);border-radius:12px;padding:18px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.dash-title{font-size:.85rem;font-weight:700;color:var(--slate);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+.cd-timer{font-size:2rem;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace;line-height:1}
+.cd-labels{display:flex;gap:15px;margin-top:6px;font-size:.75rem;color:var(--slate);font-weight:600}
+
+/* Progress Global */
+.prog-val{font-size:1.8rem;font-weight:700;color:var(--teal);line-height:1}
+.prog-sub{font-size:.8rem;color:var(--slate);margin-top:4px}
+.bar-track-dark{height:8px;background:var(--border);border-radius:10px;overflow:hidden;margin-top:12px}
+.bar-fill-dark{height:100%;background:linear-gradient(90deg,var(--teal-l),#34d399);border-radius:10px;transition:width .5s ease}
+
+/* Boletim / Notas Table */
+.boletim-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px}
+.boletim-table th{text-align:left;padding:8px;color:var(--slate);border-bottom:2px solid var(--border);font-weight:600}
+.boletim-table td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.boletim-table tr:last-child td{border-bottom:none}
+.st-badge{padding:3px 8px;border-radius:6px;font-size:.7rem;font-weight:700}
+.st-badge.ok{background:#dcfce7;color:#166534}
+.st-badge.warn{background:#fef3c7;color:#92400e}
+.st-badge.danger{background:#fee2e2;color:#b91c1c}
+
+/* Grades Input Panel */
+.grades-input-panel{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:24px;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end}
+.grade-box{display:flex;flex-direction:column;gap:6px}
+.grade-box label{font-size:.75rem;font-weight:700;color:var(--slate)}
+.grade-box input{width:70px;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font-family:'DM Mono',monospace;font-size:.9rem;outline:none;transition:border .2s}
+.grade-box input:focus{border-color:var(--sky)}
+.grade-result{margin-left:auto;text-align:right}
+.grade-result-val{font-size:1.4rem;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace}
+.grade-result-lbl{font-size:.7rem;color:var(--slate)}
+
+/* ── DISCIPLINE & SECTIONS ── */
+.disc-header{margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.disc-title{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
 .section{margin-bottom:22px}
 .sec-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:10px}
-.sec-title{font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:7px;flex-wrap:wrap;line-height:1.3}
-
-/* Editable Titles */
+.sec-title{font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .editable-title{padding:2px 6px;border-radius:6px;border:1px solid transparent;transition:all 0.2s;outline:none}
 .editable-title:hover{border-color:var(--border);background:#f8fafc}
-.editable-title:focus{border-color:var(--sky);background:#fff;box-shadow:0 0 0 2px rgba(2,132,199,0.2)}
+.editable-title:focus{border-color:var(--sky);background:#fff}
 
-.exam-tag{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:6px;font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
-.sec-count{font-size:.72rem;color:var(--slate);font-family:'DM Mono',monospace;white-space:nowrap;flex-shrink:0}
-.mini-track{height:3px;background:var(--border);border-radius:4px;margin-bottom:10px;overflow:hidden}
+.exam-tag{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:6px;font-family:'DM Mono',monospace;white-space:nowrap}
+.mini-track{height:4px;background:var(--border);border-radius:4px;margin-bottom:10px;overflow:hidden}
 .mini-fill{height:100%;border-radius:4px;transition:width .4s ease}
-.tag-red{background:#fee2e2;color:#b91c1c}
-.tag-amber{background:#fef3c7;color:#92400e}
-.tag-purple{background:#ede9fe;color:#5b21b6}
-.tag-green{background:#dcfce7;color:#166534}
 
+/* ── CHECKLIST (Spaced Repetition) ── */
 .checklist{background:var(--surface);border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,.06),0 0 0 1px var(--border);overflow:hidden;min-height:20px}
-.item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid #f1f5f9;cursor:grab;transition:background .12s, opacity .2s;-webkit-tap-highlight-color:transparent;user-select:none}
-.item:active{cursor:grabbing}
+.item{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid #f1f5f9;cursor:grab;transition:background .12s, opacity .2s;user-select:none}
 .item.dragging{opacity:0.4;background:#e2e8f0}
-.item:last-child{border-bottom:none}
 .item:hover{background:#f8fafc}
-.item.done{background:#f0fdf4}
-.item.done .itext{color:#86efac;text-decoration:line-through;text-decoration-color:#4ade80}
-.cb{width:20px;height:20px;border:2px solid #cbd5e1;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s ease;margin-top:1px;background:white}
-.item.done .cb{background:#22c55e;border-color:#22c55e}
-.cbchk{opacity:0;transition:opacity .15s}
-.item.done .cbchk{opacity:1}
-.itext{font-size:.84rem;line-height:1.45;color:var(--text);flex:1}
 
-/* Actions (Add/Del) */
+/* Status Checkboxes */
+.cb-status{width:26px;height:26px;border:2px solid #cbd5e1;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s ease;font-size:.65rem;font-weight:700;cursor:pointer;font-family:'DM Mono',monospace}
+.cb-status.s-0{background:#fff;color:transparent}
+.cb-status.s-1{background:#fef08a;border-color:#facc15;color:#854d0e} /* Estudado */
+.cb-status.s-2{background:#fed7aa;border-color:#fb923c;color:#9a3412} /* Rev 1 */
+.cb-status.s-3{background:#bbf7d0;border-color:#4ade80;color:#166534} /* Rev 2 */
+
+.item.done .itext{color:#94a3b8;text-decoration:line-through;text-decoration-color:#4ade80}
+.itext{font-size:.84rem;line-height:1.45;color:var(--text);flex:1;margin-top:3px}
+
 .item-actions{display:none;margin-left:auto;align-items:center}
 .item:hover .item-actions{display:flex}
-.del-btn{background:#fee2e2;border:1px solid #fca5a5;color:#b91c1c;border-radius:6px;padding:4px 8px;font-size:0.7rem;cursor:pointer;transition:all 0.2s}
-.del-btn:hover{background:#f87171;color:white}
-.add-btn{width:100%;border:2px dashed #cbd5e1;background:transparent;padding:10px;border-radius:8px;color:var(--slate);font-weight:600;font-size:0.8rem;cursor:pointer;transition:all 0.2s;margin-top:10px;font-family:'DM Sans',sans-serif}
-.add-btn:hover{border-color:var(--teal);color:var(--teal);background:#f0fdfa}
+.del-btn{background:#fee2e2;border:1px solid #fca5a5;color:#b91c1c;border-radius:6px;padding:4px 8px;font-size:0.7rem;cursor:pointer}
+.add-btn{width:100%;border:2px dashed #cbd5e1;background:transparent;padding:10px;border-radius:8px;color:var(--slate);font-weight:600;font-size:0.8rem;cursor:pointer;margin-top:10px}
 
-.note{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:10px 14px;font-size:.77rem;color:#78350f;margin-bottom:16px}
-.reset-btn{display:block;margin:0 auto 8px;padding:7px 16px;background:none;border:1px solid var(--border);border-radius:8px;font-size:.74rem;color:var(--slate);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
-.reset-btn:hover{background:#fee2e2;border-color:#fca5a5;color:#b91c1c}
-
-@media(max-width:600px){
-  .hdr{padding:12px 14px 10px}.panels{padding:14px 12px 60px}
-  .exam-bar-wrap{width:110px}.tabs{padding:0 8px}.exam-name{min-width:120px}
-  .item-actions{display:flex;opacity:0.3} /* sempre visível (fraquinho) no celular */
-}
+/* Timeline Classes */
+.exam-row{background:var(--surface);border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,.06),0 0 0 1px var(--border);margin-bottom:9px;display:flex;align-items:stretch;overflow:hidden}
+.exam-stripe{width:5px;flex-shrink:0}
+.exam-body{flex:1;padding:11px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.exam-date{font-size:.68rem;font-weight:700;font-family:'DM Mono',monospace;min-width:65px;color:var(--slate)}
+.exam-name{flex:1;font-size:.83rem;font-weight:600;min-width:150px}
+.month-sep{font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--slate-l);margin:16px 0 8px;padding-left:4px}
 </style>
 </head>
 <body>
 
-<div id="loading-screen">
-  <div class="spinner"></div>
-  <div class="loading-txt">carregando...</div>
-</div>
+<div id="loading-screen"><div class="spinner"></div><div class="loading-txt">carregando...</div></div>
 
 <div id="login-screen">
   <div class="login-card">
-    <div class="login-emoji">📚</div>
-    <div class="login-title">Checklist de Estudos</div>
-    <div class="login-sub">MED 117 · UnB · 2026.1</div>
-    <button class="google-btn" onclick="signIn()">
-      Entrar com Google
-    </button>
-    <div class="login-hint">Progresso sincronizado em todos os dispositivos</div>
+    <div class="login-emoji">🎓</div>
+    <div class="login-title">Dashboard MED 117</div>
+    <div class="login-sub">UnB · 2026.1</div>
+    <button class="google-btn" onclick="signIn()">Entrar com Google</button>
   </div>
 </div>
 
@@ -165,23 +160,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
   <div class="hdr">
     <div class="hdr-r1">
       <div>
-        <div class="hdr-title">📚 Checklist – 7º Semestre</div>
+        <div class="hdr-title">🎓 Dashboard – 7º Semestre</div>
         <div class="hdr-sub">MED 117 · UnB · 2026.1</div>
       </div>
       <div class="hdr-user">
-        <div class="sync-wrap">
-          <div class="sync-dot" id="sync-dot"></div>
-          <span class="sync-lbl" id="sync-lbl">salvo ✓</span>
-        </div>
+        <div class="sync-wrap"><div class="sync-dot" id="sync-dot"></div><span class="sync-lbl" id="sync-lbl">salvo</span></div>
         <div class="avatar" id="user-avatar"></div>
         <span class="user-name" id="user-name"></span>
         <button class="signout-btn" onclick="doSignOut()">sair</button>
       </div>
-    </div>
-    <div class="hdr-r2">
-      <div class="bar-track"><div class="bar-fill" id="overall-fill" style="width:0%"></div></div>
-      <div class="hdr-pct" id="hdr-pct">0%</div>
-      <div class="hdr-of" id="hdr-of">0/0 tópicos</div>
     </div>
   </div>
   <div class="tabs" id="tabs"></div>
@@ -194,7 +181,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 
 <script>
 // ══════════════════════════════════════════════════════════
-//  🔧 COLE AQUI OS DADOS DO SEU PROJETO FIREBASE
+//  🔧 FIREBASE CONFIG
 // ══════════════════════════════════════════════════════════
 const firebaseConfig = {
   apiKey:            "AIzaSyBf3ZgjZ4W_Vr2XaWRHurU2I3cDpJeLLFs",
@@ -204,520 +191,435 @@ const firebaseConfig = {
   messagingSenderId: "829528262319",
   appId:             "1:829528262319:web:8929dc37ecd62e8a8c765a"
 };
-// ══════════════════════════════════════════════════════════
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.firestore();
 db.enablePersistence().catch(() => {});
 
-// ── TEMPLATE BASE ─────────────────────────────────────────
-// Este array agora serve como GABARITO. Os dados reai ficam em userDisciplines.
+// ── TEMPLATE E EMENTAS ────────────────────────────────────
 const TEMPLATE_DISCIPLINES = [
   {
     id:'ced', label:'CeD', emoji:'👶', fullLabel:'Crescimento e Desenvolvimento',
     color:'#0d9488', fill:'#14b8a6',
+    assessments: [{id:'av1', label:'Teórica 1'}, {id:'av2', label:'Teórica 2'}, {id:'av3', label:'Prática'}],
     sections:[
-      { title:'1ª Avaliação Teórica', exam:'04/05', tagClass:'tag-red',
-        items:['Semiologia Pediátrica – A Consulta em Pediatria','Crescimento na primeira infância e sua avaliação','Aleitamento Materno e Nutrição no primeiro ano de vida','Imunização na primeira Infância','Desenvolvimento neuromotor no primeiro ano de vida','Transtornos do Desenvolvimento na infância']},
-      { title:'2ª Avaliação Teórica – novos conteúdos', exam:'29/06', tagClass:'tag-purple',
-        items:['Principais Acidentes na Infância e sua Prevenção','Síndromes Genéticas na primeira infância','Problemas Auditivos na Infância','Anemia Ferropriva na infância','Doenças Respiratórias Prevalentes e Alergias','Principais Doenças Gastrointestinais na primeira infância','Imunodeficiências na Infância']},
-      { title:'Habilidades Práticas – 08, 15 e 22/06', exam:'08–22/06', tagClass:'tag-amber',
-        items:['Anamnese pediátrica completa (história clínica)','Exame físico da criança – neonato à fase pré-escolar','Avaliação antropométrica e gráficos de crescimento','Caderneta da Criança – preenchimento e interpretação','Avaliação do desenvolvimento neuromotor (testes de triagem)','Avaliação do estado nutricional','Discussão de caso clínico com professor (Mini-CEX)']},
-      { title:'Prova Prática – Mini-CEX (13/07)', exam:'13/07', tagClass:'tag-green',
-        items:['Consulta individual observada e arguida por professor','Domínio completo da semiologia pediátrica','Formulação de hipóteses e condutas (prontuário AGHU)']},
+      { title:'1ª Avaliação Teórica', items:['Semiologia Pediátrica','Crescimento na primeira infância','Aleitamento Materno e Nutrição','Imunização na primeira Infância','Desenvolvimento neuromotor','Transtornos do Desenvolvimento'] },
+      { title:'2ª Avaliação Teórica', items:['Principais Acidentes na Infância','Síndromes Genéticas','Problemas Auditivos','Anemia Ferropriva','Doenças Respiratórias e Alergias','Principais Doenças Gastrointestinais','Imunodeficiências na Infância'] }
     ]
   },
   {
     id:'neo', label:'Neonato', emoji:'🏥', fullLabel:'Módulo Neonatologia',
     color:'#0284c7', fill:'#38bdf8',
+    assessments: [{id:'av1', label:'Teórica 1'}, {id:'av2', label:'Teórica 2'}, {id:'av3', label:'Prática'}],
     sections:[
-      { title:'1ª Prova Teórica', exam:'20/05', tagClass:'tag-red',
-        items:['Fisiologia cardiovascular e respiratória do feto e do neonato','Cuidados ao recém-nascido normal','Hipóxia e reanimação neonatal','Distúrbios metabólicos do RN','Infecção Aguda – Sepse Neonatal','Icterícia e incompatibilidade sanguínea materno-fetal','Distúrbios respiratórios I','Distúrbios respiratórios II']},
-      { title:'2ª Prova Teórica – novos conteúdos', exam:'08/07', tagClass:'tag-purple',
-        items:['Infecções Crônicas – Sífilis Congênita','Infecções Crônicas – Toxoplasmose Congênita','Recém-nascido pré-termo I','Recém-nascido pré-termo II – Prematuridade','Distúrbios Neurológicos no RN','Conduta Pediátrica nas Malformações Congênitas']},
-      { title:'Prova Prática – OSCE / Key Features (06–10/07)', exam:'06–10/07', tagClass:'tag-green',
-        items:['Simulação Realística: Reanimação Neonatal (Lab. HUB)','Simulação Realística: Icterícia Neonatal (Lab. HUB)','Caso Clínico: Ficha perinatal e Acolhimento','Prática: Exame Físico do Recém-Nascido (ALCON)','Caso Clínico: Distúrbios Metabólicos','Caso Clínico: Sepse Neonatal','Caso Clínico: Distúrbios Respiratórios','Caso Clínico: Sífilis Congênita','Caso Clínico: Toxoplasmose Congênita','Discussão Clínica: Prematuridade','Discussão Clínica: Distúrbios Neurológicos']},
+      { title:'1ª Prova Teórica', items:['Fisiologia cardiovascular e respiratória','Cuidados ao recém-nascido normal','Hipóxia e reanimação neonatal','Distúrbios metabólicos','Sepse Neonatal','Icterícia e incompatibilidade','Distúrbios respiratórios I','Distúrbios respiratórios II'] },
+      { title:'2ª Prova Teórica', items:['Sífilis Congênita','Toxoplasmose Congênita','Recém-nascido pré-termo I','Recém-nascido pré-termo II','Distúrbios Neurológicos no RN','Malformações Congênitas'] }
     ]
   },
   {
     id:'go', label:'GO', emoji:'🩺', fullLabel:'Ginecologia & Obstetrícia',
     color:'#7c3aed', fill:'#a78bfa',
-    note:'Provas de Ginecologia e Obstetrícia são unificadas (1ª em 07/05, 2ª em 03/07).',
+    assessments: [{id:'av1', label:'Teórica 1'}, {id:'av2', label:'Teórica 2'}, {id:'av3', label:'Prática'}],
     sections:[
-      { title:'Ginecologia – conteúdo p/ 1ª Prova (07/05)', exam:'07/05', tagClass:'tag-red',
-        items:['Anatomia do Trato Genital Feminino','Anamnese e Exame Físico Ginecológico','Ciclo menstrual','Desenvolvimento puberal normal e anormal','Amenorreias','Endometriose','Dor Pélvica','Síndrome dos Ovários Policísticos (SOP)','Infertilidade','Vulvovaginites e Cervicites','Contracepção I','Patologia benigna e maligna do ovário']},
-      { title:'Obstetrícia – conteúdo p/ 1ª Prova (07/05)', exam:'07/05', tagClass:'tag-red',
-        items:['Avaliação pré-concepcional','Diagnóstico de gravidez e desenvolvimento embrionário','Endocrinologia da gravidez e trocas materno-ovulares','Fisiologia Materna na gravidez','Pré-natal','Mecanismos e assistência ao parto normal','Distocias','Puerpério Normal e Patológico','Amamentação e Distúrbios da Amamentação','Sangramento vaginal 1ª metade – Abortamento','Sangramento vaginal 1ª metade – Gestação Ectópica e DTG','Sangramento vaginal 2ª metade – DPP, Placenta Prévia, Vasa Prévia','Estatísticas Vitais']},
-      { title:'Ginecologia – novos conteúdos p/ 2ª Prova (03/07)', exam:'03/07', tagClass:'tag-purple',
-        items:['Cirurgia ginecológica','Contracepção II','Patologia benigna da mama','Climatério e Menopausa','Câncer do corpo uterino (endométrio)','Sangramento Uterino Anormal','Patologia maligna da mama','Patologias Benignas do colo uterino','Câncer do colo uterino','Úlceras genitais e patologia maligna da vulva','Avaliação e acompanhamento de pessoas trans']},
-      { title:'Obstetrícia – novos conteúdos p/ 2ª Prova (03/07)', exam:'03/07', tagClass:'tag-purple',
-        items:['Violência Obstétrica','RPMO – Rotura Prematura de Membranas Ovulares','Trabalho de parto pré-termo','Infecções na gestação: ITU e Streptococcus do Grupo B','Infecções na gestação: Toxoplasmose e HIV','Diabetes e Gestação','Infecções na gestação: Sífilis','Síndromes Hipertensivas da Gestação','Doença Hemolítica Perinatal','Avaliação do crescimento e vitalidade fetal','Síndrome da Insuficiência Placentária / CIUR','Gemelaridade','Bioética em Obstetrícia','Distopias e Incontinência Urinária']},
-      { title:'Avaliação Prática com manequins (26/06)', exam:'26/06', tagClass:'tag-green',
-        items:['Simulação Ginecologia – Lab. HUB: 1ª atividade (março)','Simulação Ginecologia – Lab. HUB: 2ª atividade (maio)','Simulação Obstetrícia – Lab. HUB (abril)','Prática: Ambulatório de Pré-Natal (rodízios 1 a 4)','Prática: Enfermaria da Maternidade (rodízios 1 a 4)','Prática: Pronto Socorro da Obstetrícia (rodízios 1 a 4)','Prática: Centro Obstétrico (rodízios 1 a 4)']},
+      { title:'Ginecologia 1', items:['Anatomia do Trato Genital','Anamnese e Exame Físico','Ciclo menstrual','Desenvolvimento puberal','Amenorreias','Endometriose','SOP','Infertilidade','Vulvovaginites','Contracepção I','Patologia de ovário'] },
+      { title:'Obstetrícia 1', items:['Avaliação pré-concepcional','Diagnóstico de gravidez','Endocrinologia da gravidez','Fisiologia Materna','Pré-natal','Mecanismos do parto','Distocias','Puerpério','Amamentação','Sangramento 1ª e 2ª metade'] },
+      { title:'Ginecologia 2', items:['Cirurgia ginecológica','Contracepção II','Patologia da mama','Climatério e Menopausa','Câncer de endométrio','Sangramento Uterino Anormal','Câncer do colo uterino','Pessoas trans'] },
+      { title:'Obstetrícia 2', items:['Violência Obstétrica','RPMO e Parto pré-termo','Infecções na gestação','Diabetes e Gestação','Síndromes Hipertensivas','CIUR','Gemelaridade'] }
+    ]
+  },
+  {
+    id:'sfc', label:'SFC', emoji:'🤝', fullLabel:'Saúde, Família e Comunidade 4',
+    color:'#059669', fill:'#10b981',
+    assessments: [{id:'av1', label:'Av. Teórica'}, {id:'av2', label:'Ativ. Prática'}],
+    sections:[
+      { title:'Saúde da Mulher na APS', items:['PNAISM e Abordagem na APS','Sofrimento Mental e Violência','Planejamento Reprodutivo','Pré-natal de risco habitual','Cuidados no Puerpério','Climatério e Menopausa','Rastreamento câncer colo/mama'] },
+      { title:'Saúde da Criança na APS', items:['Política Nacional da Criança e Puericultura','Patologias mais comuns na infância','Saúde do Pré-escolar e Escolar'] },
+      { title:'Populações Específicas', items:['Saúde LGBTQIAPN+ e Práticas de Cuidado','Documentações (Cadernetas, SOAP)','Discussão de Casos na UBS'] }
     ]
   },
   {
     id:'pato', label:'Pato 3', emoji:'🔬', fullLabel:'Patologia Sistêmica 3',
     color:'#e11d48', fill:'#fb7185',
+    assessments: [{id:'av1', label:'Útero'}, {id:'av2', label:'Mama'}, {id:'av3', label:'Ovário'}, {id:'av4', label:'Prova Final'}],
     sections:[
-      { title:'Útero – Pré-teste (25/03) + TBL', exam:'25/03', tagClass:'tag-red',
-        items:['Anatomia e histologia do útero e colo uterino','Endometrite aguda e crônica','Adenomiose e endometriose uterina','Leiomioma – tipos e morfologia macroscópica e microscópica','Hiperplasia endometrial – classificação (sem/com atipias)','Carcinoma do endométrio – tipos I (endometrioide) e II (seroso)','Lesões benignas do colo: ectopia, metaplasia escamosa, pólipo cervical','NIC / CIN: LSIL, HSIL – infecção por HPV e patogênese','Carcinoma escamocelular do colo uterino','Adenocarcinoma do colo uterino','Colpocitologia – Sistema Bethesda e interpretação de laudos','Análise de peças macroscópicas e lâminas de útero (ULEG)']},
-      { title:'Mama – Pré-teste (29/04) + TBL', exam:'29/04', tagClass:'tag-amber',
-        items:['Anatomia e histologia da mama','Alterações fibrocísticas (metaplasia apócrina, adenose, fibrose)','Fibroadenoma e tumor Phyllodes','Papiloma intraductal e ectasia ductal','Carcinoma ductal in situ (CDIS) – subtipos histológicos','Carcinoma lobular in situ (CLIS)','Carcinoma ductal invasivo (NST) – grau histológico (Nottingham/SBR)','Carcinoma lobular invasivo e variantes','Subtipos moleculares: Luminal A, Luminal B, HER2+, Triplo-negativo','Doença de Paget da mama e carcinoma inflamatório','Estadiamento TNM e fatores prognósticos do câncer de mama','Análise de peças macroscópicas e lâminas de mama (ULEG)']},
-      { title:'Ovário e Tuba – Pré-teste (27/05) + TBL', exam:'27/05', tagClass:'tag-purple',
-        items:['Anatomia e histologia do ovário e trompas','Cistos funcionais (folicular, corpo lúteo) e SOP – morfologia','Tumores epiteliais serosos: cistoadenoma, borderline, carcinoma de alto grau','Tumores mucinosos do ovário: cistoadenoma e carcinoma mucinoso','Tumores endometrioides e carcinoma de células claras do ovário','Tumor de Brenner','Tumores de células germinativas: teratoma maduro e imaturo','Tumores de células germinativas: disgerminoma e tumor do seio endodérmico','Tumores do cordão sexual-estroma: granulosa, tecoma, fibroma, Sertoli-Leydig','Tumor de Krukenberg (metástase ovariana)','Salpingite aguda e crônica; gravidez ectópica – anatomopatologia','Análise de peças e lâminas de ovário/tuba (ULEG)']},
-      { title:'Doenças da Gravidez – Questionário Final (24/06)', exam:'24/06', tagClass:'tag-green',
-        items:['Mola hidatiforme completa – cariotipo e morfologia','Mola hidatiforme parcial – cariotipo e morfologia','Mola invasora e coriocarcinoma','PSTT (tumor trofoblástico do sítio placentário) e ETT','Anomalias de implantação placentária (acreta, increta, percreta)','Aborto espontâneo – causas e achados anatomopatológicos','Pré-eclâmpsia, eclâmpsia e HELLP – lesões anatomopatológicas']},
+      { title:'Módulos Práticos / Relatórios', items:['Patologia do Útero e Colo Uterino','Carcinomas de Mama e Lesões Benignas','Tumores de Ovário e Tuba Uterina','Doenças Trofoblásticas e Eclâmpsia'] }
     ]
   },
   {
-    id:'imago', label:'Imago', emoji:'🩻', fullLabel:'Imaginologia (FMD0110)',
+    id:'imago', label:'Imago', emoji:'🩻', fullLabel:'Imaginologia',
     color:'#d97706', fill:'#fbbf24',
-    note:'Média Final = (P1+P2+P3+P4)/4. P4 é cumulativa. Substitutiva cobre toda a matéria e limita menção a MM.',
+    assessments: [{id:'av1', label:'Prova 1'}, {id:'av2', label:'Prova 2'}, {id:'av3', label:'Prova 3'}, {id:'av4', label:'Prova 4'}],
     sections:[
-      { title:'Prova 1 – 13/04', exam:'13/04', tagClass:'tag-red',
-        items:[
-          'Física dos métodos de imagem – Parte 1 (RX, fluoroscopia, mamografia)',
-          'Física dos métodos de imagem – Parte 2 (TC, RM, US, Medicina Nuclear)',
-          'Contrastes radiológicos: iodados e gadolínio – indicações e contraindicações',
-          'Proteção radiológica: efeitos biológicos e princípios ALARA',
-          'Tórax 1 – Anatomia radiológica e abordagem sistemática da RX de tórax',
-          'Tórax 2 – Padrões semiológicos: consolidação, atelectasia, derrame, pneumotórax',
-          'Tórax 3 – Nódulo pulmonar, massas mediastinais, cardiomegalia',
-          'Mama – Mamografia, US e RM: indicações, Bi-RADS e achados'
-        ]
-      },
-      { title:'Prova 2 – 11/05 (novos conteúdos)', exam:'11/05', tagClass:'tag-amber',
-        items:[
-          'Neurorradiologia 1 – Anatomia em TC e RM, AVC isquêmico e hemorrágico',
-          'Neurorradiologia 2 – Tumores cerebrais, hidrocefalia, infecções do SNC',
-          'Coluna vertebral – Hérnia de disco, estenose do canal, trauma raquimedular',
-          'Obstetrícia – US obstétrica: datação, morfológico, Doppler e placentação',
-          'Pediatria – RX de tórax e abdome pediátrico; achados típicos',
-          'Radiologia da cabeça e pescoço – Seios da face, órbita, pescoço (TC/RM/US)'
-        ]
-      },
-      { title:'Prova 3 – 22/06 (novos conteúdos)', exam:'22/06', tagClass:'tag-purple',
-        items:[
-          'Abdome e pelve 1 – US abdominal: fígado, vesícula biliar e vias biliares',
-          'Abdome e pelve 2 – TC/RM: pâncreas, baço e retroperitônio',
-          'Abdome e pelve 3 – Trato gastrointestinal: oclusão, apendicite, diverticulite',
-          'Abdome e pelve 4 – Rim, bexiga, próstata, útero e ovários por imagem',
-          'Vascular – US Doppler, angio-TC e angio-RM: DAP, TVP, aneurisma de aorta',
-          'Músculo-esquelético 1 – Trauma: fraturas, luxações e lesões ligamentares',
-          'Músculo-esquelético 2 – Tumores ósseos, artrites, necrose avascular',
-          'Densitometria Óssea – DXA: indicações, laudos e classificação OMS',
-          'Aula prática de US – sessão 1 (10/06): técnica e anatomia sonográfica',
-          'Aula prática de US – sessão 2 (15/06): abdome e pelve',
-          'Aula prática de US – sessão 3 (17/06): casos clínicos integrados'
-        ]
-      },
-      { title:'Prova Final (P4) – 29/06 · TODO O CONTEÚDO', exam:'29/06', tagClass:'tag-green',
-        items:[
-          'Revisão: Física e princípios dos métodos de imagem',
-          'Revisão: Contrastes e proteção radiológica',
-          'Revisão: Tórax e Mama',
-          'Revisão: Neurorradiologia e Coluna vertebral',
-          'Revisão: Obstetrícia, Pediatria e Cabeça/Pescoço',
-          'Revisão: Abdome e Pelve (4 aulas)',
-          'Revisão: Vascular e Músculo-esquelético',
-          'Revisão: Densitometria Óssea e US prática'
-        ]
-      },
+      { title:'Conteúdos', items:['Física dos métodos e Contrastes','Tórax e Mama','Neurorradiologia e Coluna','Obstetrícia e Pediatria','Abdome e Pelve','Vascular e Musculoesquelético'] }
     ]
   }
 ];
 
-const EXAM_MAP = [
-  {date:'25/03',full:'Pato 3 – Pré-teste Útero',cls:'pato',month:'MAR',refs:[{d:'pato',s:0}]},
-  {date:'13/04',full:'Imaginologia – Prova 1',cls:'imago',month:'ABR',refs:[{d:'imago',s:0}]},
-  {date:'29/04',full:'Pato 3 – Pré-teste Mama',cls:'pato',month:'ABR',refs:[{d:'pato',s:1}]},
-  {date:'04/05',full:'CeD – 1ª Avaliação Teórica',cls:'ced',month:'MAI',refs:[{d:'ced',s:0}]},
-  {date:'07/05',full:'GO – 1ª Avaliação Teórica (Gin + Obs)',cls:'go',month:'MAI',refs:[{d:'go',s:0},{d:'go',s:1}]},
-  {date:'11/05',full:'Imaginologia – Prova 2',cls:'imago',month:'MAI',refs:[{d:'imago',s:1}]},
-  {date:'20/05',full:'Neonato – 1ª Prova Teórica',cls:'neo',month:'MAI',refs:[{d:'neo',s:0}]},
-  {date:'27/05',full:'Pato 3 – Pré-teste Ovário/Tuba',cls:'pato',month:'MAI',refs:[{d:'pato',s:2}]},
-  {date:'08–22/06',full:'CeD – Habilidades Práticas',cls:'ced',month:'JUN',refs:[{d:'ced',s:2}]},
-  {date:'22/06',full:'Imaginologia – Prova 3',cls:'imago',month:'JUN',refs:[{d:'imago',s:2}]},
-  {date:'23/06',full:'SFC – Avaliação Escrita',cls:'sfc',month:'JUN',refs:[],note:'Ementa de SFC não incluída'},
-  {date:'24/06',full:'Pato 3 – Questionário Final (útero + mama + ovário/tuba + gravidez)',cls:'pato',month:'JUN',refs:[{d:'pato',s:0},{d:'pato',s:1},{d:'pato',s:2},{d:'pato',s:3}],accumulated:true},
-  {date:'26/06',full:'GO – Avaliação Prática (manequins)',cls:'go',month:'JUN',refs:[{d:'go',s:4}]},
-  {date:'29/06',full:'CeD – 2ª Avaliação Teórica (acumulativo)',cls:'ced',month:'JUN',refs:[{d:'ced',s:0},{d:'ced',s:1}],accumulated:true},
-  {date:'29/06',full:'Imaginologia – Prova Final / P4 (acumulativo)',cls:'imago',month:'JUN',refs:[{d:'imago',s:0},{d:'imago',s:1},{d:'imago',s:2},{d:'imago',s:3}],accumulated:true},
-  {date:'30/06–01/07',full:'Seminário Integrador – todas as UDPs',cls:'sfc',month:'JUN–JUL',refs:[],note:'Atividade integradora'},
-  {date:'03/07',full:'GO – 2ª Avaliação Teórica (Gin + Obs, acumulativo)',cls:'go',month:'JUL',refs:[{d:'go',s:0},{d:'go',s:1},{d:'go',s:2},{d:'go',s:3}],accumulated:true},
-  {date:'06–10/07',full:'Neonato – Prova Prática (OSCE/Key Features)',cls:'neo',month:'JUL',refs:[{d:'neo',s:2}]},
-  {date:'08/07',full:'Neonato – 2ª Prova Teórica (acumulativo)',cls:'neo',month:'JUL',refs:[{d:'neo',s:0},{d:'neo',s:1}],accumulated:true},
-  {date:'13/07',full:'CeD – Prova Prática (Mini-CEX)',cls:'ced',month:'JUL',refs:[{d:'ced',s:3}]},
-];
-
-const COLORS={ced:'#0d9488',neo:'#0284c7',go:'#7c3aed',pato:'#e11d48',sfc:'#94a3b8',imago:'#d97706'};
-const FILLS ={ced:'#14b8a6',neo:'#38bdf8',go:'#a78bfa',pato:'#fb7185',sfc:'#cbd5e1',imago:'#fbbf24'};
+const COLORS={ced:'#0d9488',neo:'#0284c7',go:'#7c3aed',pato:'#e11d48',sfc:'#059669',imago:'#d97706'};
 
 // ── STATE ──────────────────────────────────────────────────
 let userDisciplines = [];
+let userGrades = { pi: '' };
 let activeTab = 'resumo';
 let currentUser = null;
 let saveTimer = null;
-let dragContext = null;
 
 const genId = () => Math.random().toString(36).substr(2, 9);
 
-// ── AUTH ───────────────────────────────────────────────────
+// ── AUTH & DATA ────────────────────────────────────────────
 auth.onAuthStateChanged(async user => {
   if (user) {
     currentUser = user;
-    updateUserUI(user);
+    document.getElementById('user-name').textContent = (user.displayName || 'Usuário').split(' ')[0];
     await loadFromFirestore();
     showScreen('app');
-    try { renderAll(); } catch (e) { console.error("Erro render:", e); }
-  } else {
-    showScreen('login');
-  }
+    startCountdown();
+    renderAll();
+  } else { showScreen('login'); }
 });
 
 function signIn() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).catch(e => alert('Erro: ' + e.message));
+  auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e => alert(e.message));
 }
-
 function doSignOut() {
-  if (!confirm('Sair da conta?')) return;
-  auth.signOut();
-  userDisciplines = [];
-  showScreen('login');
+  if(confirm('Sair da conta?')) auth.signOut();
 }
-
-function updateUserUI(user) {
-  document.getElementById('user-name').textContent = (user.displayName || user.email || 'U').split(' ')[0];
-  document.getElementById('user-avatar').innerHTML = user.photoURL
-    ? `<img src="${user.photoURL}" alt="">` : (user.displayName || 'U').charAt(0).toUpperCase();
-}
-
 function showScreen(which) {
   document.getElementById('loading-screen').style.display = which === 'loading' ? 'flex' : 'none';
   document.getElementById('login-screen').style.display  = which === 'login'   ? 'flex' : 'none';
   document.getElementById('app').style.display           = which === 'app'     ? 'block': 'none';
 }
 
-// ── FIRESTORE & DATA MIGRATION ─────────────────────────────
 async function loadFromFirestore() {
   try {
     const snap = await db.collection('users').doc(currentUser.uid).collection('checklist').doc('data').get();
     if (snap.exists) {
       const data = snap.data();
-      if (data.userDisciplines) {
-        userDisciplines = data.userDisciplines;
-      } else if (data.checked) {
-        userDisciplines = migrateLegacyData(data.checked);
-      } else {
-        userDisciplines = buildInitialData();
-      }
-    } else {
-      userDisciplines = buildInitialData();
-    }
-  } catch(e) {
-    console.error('Erro load:', e);
-    userDisciplines = buildInitialData();
-  }
+      userDisciplines = data.userDisciplines || buildInitialData();
+      userGrades = data.userGrades || { pi: '' };
+      
+      // Migration para o novo sistema de status numérico se vier do boolean antigo
+      userDisciplines.forEach(d => d.sections.forEach(s => s.items.forEach(i => {
+        if(typeof i.done === 'boolean' && i.status === undefined) i.status = i.done ? 3 : 0;
+      })));
+    } else { userDisciplines = buildInitialData(); }
+  } catch(e) { userDisciplines = buildInitialData(); }
 }
 
 function buildInitialData() {
   let cloned = JSON.parse(JSON.stringify(TEMPLATE_DISCIPLINES));
   cloned.forEach(d => d.sections.forEach(s => {
-    s.items = s.items.map(lbl => ({ id: genId(), label: lbl, done: false }));
-  }));
-  return cloned;
-}
-
-function migrateLegacyData(oldChecked) {
-  let cloned = JSON.parse(JSON.stringify(TEMPLATE_DISCIPLINES));
-  cloned.forEach(d => d.sections.forEach((s, si) => {
-    s.items = s.items.map((lbl, ii) => ({ id: genId(), label: lbl, done: !!oldChecked[`${d.id}.${si}.${ii}`] }));
+    s.items = s.items.map(lbl => ({ id: genId(), label: lbl, status: 0 }));
   }));
   return cloned;
 }
 
 function scheduleSave() {
-  setSyncStatus('saving');
+  const dot = document.getElementById('sync-dot');
+  if(dot) dot.className = 'sync-dot saving';
   clearTimeout(saveTimer);
   saveTimer = setTimeout(async () => {
     try {
       await db.collection('users').doc(currentUser.uid).collection('checklist').doc('data')
-        .set({ userDisciplines, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
-      setSyncStatus('saved');
-    } catch(e) { setSyncStatus('error'); }
+        .set({ userDisciplines, userGrades, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+      if(dot) dot.className = 'sync-dot';
+    } catch(e) { if(dot) dot.className = 'sync-dot error'; }
   }, 800);
 }
 
-function setSyncStatus(s) {
-  const dot = document.getElementById('sync-dot');
-  const lbl = document.getElementById('sync-lbl');
-  if(!dot) return;
-  dot.className = 'sync-dot' + (s === 'saving' ? ' saving' : s === 'error' ? ' error' : '');
-  lbl.textContent = s === 'saving' ? 'salvando...' : s === 'error' ? 'erro ✕' : 'salvo ✓';
+// ── LÓGICA DE NOTAS (90% + 10% PI) ──────────────────────────
+function getSubjectGrades(dId) {
+  if(!userGrades[dId]) userGrades[dId] = {};
+  return userGrades[dId];
 }
 
-// ── HELPERS (STATS) ────────────────────────────────────────
-function secStats(items) {
-  if (!items || !Array.isArray(items)) return { done: 0, total: 0 }; 
-  let done = items.filter(i => i.done).length;
-  return { done, total: items.length };
-}
-
-function examStats(exam) {
-  if (!exam || !exam.refs || !exam.refs.length) return null;
-  let done = 0, total = 0;
-  exam.refs.forEach(({d,s}) => {
-    const disc = userDisciplines.find(x => x.id === d);
-    if (!disc || !disc.sections || !disc.sections[s]) return;
-    const st = secStats(disc.sections[s].items);
-    done += st.done; total += st.total;
+function calcSubjectMetrics(dId) {
+  const d = userDisciplines.find(x => x.id === dId);
+  const grades = getSubjectGrades(dId);
+  let totalSoma = 0, countPreenchido = 0;
+  
+  d.assessments.forEach(av => {
+    let val = parseFloat(grades[av.id]);
+    if(!isNaN(val)) { totalSoma += val; countPreenchido++; }
   });
-  return { done, total, pct: total ? Math.round((done/total)*100) : 0 };
+
+  const totalProvas = d.assessments.length;
+  const numFaltantes = totalProvas - countPreenchido;
+  const mediaParcialDasProvas = countPreenchido > 0 ? (totalSoma / countPreenchido) : 0;
+  
+  const valPI = parseFloat(userGrades.pi) || 0;
+  
+  // Média Atual = Média do que já fez * 0.9 + PI * 0.1
+  const mediaAtual = (mediaParcialDasProvas * 0.9) + (valPI * 0.1);
+  
+  // Min = O que já tem + 0 nas faltantes
+  const subMin = (totalSoma / totalProvas) * 0.9 + (valPI * 0.1);
+  
+  // Max = O que já tem + 10 nas faltantes
+  const maxPI = userGrades.pi === '' ? 10 : valPI; // se nao preencheu PI, max é tirando 10
+  const subMax = ((totalSoma + (10 * numFaltantes)) / totalProvas) * 0.9 + (maxPI * 0.1);
+  
+  // Situação
+  let statusStr = '', statusCls = '';
+  if(subMax < 5.0) { statusStr = 'Reprovado'; statusCls = 'danger'; }
+  else if(subMin >= 5.0) { statusStr = 'Aprovado (MM)'; statusCls = 'ok'; }
+  else {
+    // Faltam pontos nas provas restantes
+    // Equação: ((totalSoma + X) / totalProvas) * 0.9 + PI * 0.1 = 5.0
+    const pointsNeeded = (((5.0 - (valPI * 0.1)) / 0.9) * totalProvas) - totalSoma;
+    statusStr = `Faltam ${pointsNeeded.toFixed(1)} pts`;
+    statusCls = 'warn';
+  }
+
+  return { 
+    atual: mediaAtual.toFixed(2), 
+    min: subMin.toFixed(2), 
+    max: subMax.toFixed(2), 
+    status: statusStr, 
+    cls: statusCls 
+  };
 }
 
-function overallStats() {
-  let done = 0, total = 0;
-  userDisciplines.forEach(d => {
-    if(!d.sections) return;
-    d.sections.forEach((s) => {
-      const st = secStats(s.items);
-      done += st.done; total += st.total;
-    });
-  });
-  return { done, total, pct: total ? Math.round((done/total)*100) : 0 };
+// ── LÓGICA DE PROGRESSO ────────────────────────────────────
+function getProgress(items) {
+  if(!items || items.length === 0) return { score: 0, max: 0 };
+  let score = items.reduce((acc, i) => acc + (i.status || 0), 0);
+  return { score, max: items.length * 3 };
 }
 
-function discStats(d) {
-  let done = 0, total = 0;
-  if(!d.sections) return { done: 0, total: 0 };
-  d.sections.forEach((s) => { 
-    const st = secStats(s.items); 
-    done += st.done; total += st.total; 
-  });
-  return { done, total };
+function globalProgress() {
+  let score = 0, max = 0;
+  userDisciplines.forEach(d => d.sections.forEach(s => {
+    const p = getProgress(s.items);
+    score += p.score; max += p.max;
+  }));
+  return { pct: max ? Math.round((score/max)*100) : 0 };
 }
 
 // ── RENDERIZAÇÃO ───────────────────────────────────────────
 function renderTabs() {
-  const all = [
-    { id:'resumo', label:'Resumo', emoji:'📊', cls:'resumo', dot:'#0f1f3d' },
-    ...userDisciplines.map(d => ({ id:d.id, label:d.label, emoji:d.emoji, cls:d.id, dot:d.color, stats:discStats(d) }))
-  ];
-  
+  const all = [{ id:'resumo', label:'Dashboard', cls:'resumo' }, ...userDisciplines];
   document.getElementById('tabs').innerHTML = all.map(t => {
-    const active = t.id === activeTab ? `t-${t.cls} active` : '';
-    const cnt = t.stats ? `<span class="tab-cnt">${t.stats.done}/${t.stats.total}</span>` : '';
-    return `<div class="tab t-${t.cls} ${active}" onclick="switchTab('${t.id}')">
-      <span class="tab-dot" style="background:${t.dot || '#94a3b8'}"></span>${t.emoji} ${t.label}${cnt}</div>`;
+    const active = t.id === activeTab ? `t-${t.cls || t.id} active` : '';
+    return `<div class="tab t-${t.cls || t.id} ${active}" onclick="switchTab('${t.id}')">
+      ${t.emoji || '📊'} ${t.label}</div>`;
   }).join('');
 }
 
 function renderResumo() {
-  let prevMonth = '';
-  const rows = (EXAM_MAP || []).map(exam => {
-    const stats = examStats(exam);
-    const color = COLORS[exam.cls] || '#94a3b8';
-    const fill  = FILLS[exam.cls]  || '#cbd5e1';
-    let sep = '';
-    
-    if (exam.month !== prevMonth) { sep = `<div class="month-sep">— ${exam.month}</div>`; prevMonth = exam.month; }
-    
-    const progress = !stats
-      ? `<span class="na-tag">${exam.note || '–'}</span>`
-      : `<div class="exam-bar-wrap"><div class="exam-bar-bg"><div class="exam-bar-f" style="width:${stats.pct}%;background:${fill}"></div></div>
-          <div class="exam-bar-labels"><span class="exam-pct" style="color:${color}">${stats.pct}%</span><span class="exam-cnt">${stats.done}/${stats.total} tópicos</span></div></div>`;
-          
-    const acc = exam.accumulated ? '<span class="acc-tag">acumulativo</span>' : '';
-    return `${sep}<div class="exam-row"><div class="exam-stripe" style="background:${color}"></div><div class="exam-body">
-        <div class="exam-date">${exam.date}</div><div class="exam-name">${exam.full} ${acc}</div>${progress}</div></div>`;
+  const { pct } = globalProgress();
+  
+  let boletimRows = userDisciplines.map(d => {
+    const m = calcSubjectMetrics(d.id);
+    return `<tr>
+      <td><b>${d.label}</b></td>
+      <td>${m.atual}</td>
+      <td style="color:#64748b">${m.min} a ${m.max}</td>
+      <td><span class="st-badge ${m.cls}">${m.status}</span></td>
+    </tr>`;
   }).join('');
-  return `<div class="resumo-intro">ℹ️ Cada barra mostra o % dos tópicos daquela avaliação já estudados. Provas <b>acumulativas</b> somam o conteúdo de provas anteriores.</div>${rows}`;
+
+  return `
+    <div class="dash-grid">
+      <div class="dash-card">
+        <div class="dash-title">⏳ Fim do Semestre (18/07/26)</div>
+        <div class="cd-timer" id="cd-val">--:--:--</div>
+        <div class="cd-labels"><span>DIAS</span><span>HORAS</span><span>MIN</span></div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-title">📈 Progresso Geral</div>
+        <div class="prog-val">${pct}% Estudado/Revisado</div>
+        <div class="bar-track-dark"><div class="bar-fill-dark" style="width:${pct}%"></div></div>
+        <div class="prog-sub">Método: 1/3 Estudo, 2/3 e 3/3 Revisões</div>
+      </div>
+    </div>
+    
+    <div class="dash-card" style="margin-bottom:24px">
+      <div class="dash-title">📝 Notas e Previsões (Mínimo MM = 5.0)</div>
+      <div style="font-size:0.75rem;color:var(--slate);margin-bottom:10px">O Projeto Integrador vale 10% da nota global de cada matéria. Insira a nota do PI (de 0 a 10) aqui para o cálculo aplicar em todas:</div>
+      <div class="grade-box" style="flex-direction:row; align-items:center; margin-bottom:16px">
+        <label>Projeto Integrador / Seminário:</label>
+        <input type="number" step="0.1" value="${userGrades.pi}" placeholder="--" onblur="updateGlobalPI(this.value)">
+      </div>
+      
+      <div style="overflow-x:auto">
+        <table class="boletim-table">
+          <thead><tr><th>Disciplina</th><th>Média Parcial</th><th>Projeção (Min - Max)</th><th>Situação</th></tr></thead>
+          <tbody>${boletimRows}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
 }
 
 function renderDiscPanel(d) {
-  const { done, total } = discStats(d);
-  const sectionsHtml = (d.sections || []).map((s,si) => renderSection(d,s,si)).join('');
+  const grades = getSubjectGrades(d.id);
+  const m = calcSubjectMetrics(d.id);
+  
+  const inputsHtml = d.assessments.map(av => `
+    <div class="grade-box">
+      <label>${av.label}</label>
+      <input type="number" step="0.1" value="${grades[av.id]||''}" placeholder="--" onblur="updateGrade('${d.id}', '${av.id}', this.value)">
+    </div>
+  `).join('');
+
+  const sectionsHtml = d.sections.map((s,si) => renderSection(d,s,si)).join('');
   
   return `
     <div class="disc-header">
-      <div class="disc-title" style="color:${d.color}">
-        ${d.emoji} <span class="editable-title" contenteditable="true" onblur="updateTitle('${d.id}', null, this.innerText)">${d.fullLabel}</span>
-      </div>
-      <div class="disc-stats">${done}/${total} tópicos</div>
+      <div class="disc-title" style="color:${d.color}">${d.emoji} ${d.fullLabel}</div>
     </div>
-    ${d.note ? `<div class="note">ℹ️ ${d.note}</div>` : ''}
+    
+    <div class="grades-input-panel">
+      ${inputsHtml}
+      <div class="grade-result">
+        <div class="grade-result-lbl">Média Atual (c/ 10% PI)</div>
+        <div class="grade-result-val">${m.atual}</div>
+      </div>
+    </div>
+    
     ${sectionsHtml}
-    <button class="reset-btn" onclick="resetDisc('${d.id}')">🗑 Limpar checks de ${d.label}</button>`;
+  `;
 }
 
 function renderSection(d, s, si) {
-  const { done, total } = secStats(s.items);
-  const pct = total ? Math.round((done/total)*100) : 0;
-  const itemsHtml = (s.items || []).map((item) => renderItem(d,si,item)).join('');
+  const { score, max } = getProgress(s.items);
+  const pct = max ? Math.round((score/max)*100) : 0;
+  
+  const itemsHtml = s.items.map(item => `
+    <div class="item ${item.status === 3 ? 'done' : ''}" data-id="${item.id}" draggable="true" ondragstart="dragStart(event, '${d.id}', ${si}, '${item.id}')">
+      <div class="cb-status s-${item.status}" onclick="cycleStatus('${d.id}', ${si}, '${item.id}')">
+        ${item.status===1?'E': item.status===2?'R1': item.status===3?'R2':''}
+      </div>
+      <div class="itext">${item.label}</div>
+      <div class="item-actions"><button class="del-btn" onclick="deleteItem('${d.id}', ${si}, '${item.id}')">🗑️</button></div>
+    </div>
+  `).join('');
   
   return `<div class="section" id="sec-${d.id}-${si}">
     <div class="sec-head">
-      <div class="sec-title">
-        <span class="editable-title" contenteditable="true" onblur="updateTitle('${d.id}', ${si}, this.innerText)">${s.title}</span>
-        <span class="exam-tag ${s.tagClass || ''}">📅 ${s.exam || 'N/A'}</span>
-      </div>
-      <div class="sec-count">${done}/${total}</div>
+      <div class="sec-title"><span class="editable-title" contenteditable="true" onblur="updateTitle('${d.id}', ${si}, this.innerText)">${s.title}</span></div>
+      <div style="font-size:0.75rem; font-family:'DM Mono', monospace; font-weight:700; color:var(--slate)">${pct}%</div>
     </div>
     <div class="mini-track"><div class="mini-fill" style="width:${pct}%;background:${d.fill}"></div></div>
-    
-    <div class="checklist" ondragover="dragOver(event)" ondrop="drop(event, '${d.id}', ${si})">
-      ${itemsHtml}
-    </div>
+    <div class="checklist" ondragover="event.preventDefault()" ondrop="drop(event, '${d.id}', ${si})">${itemsHtml}</div>
     <button class="add-btn" onclick="addItem('${d.id}', ${si})">+ Adicionar tópico</button>
-  </div>`;
-}
-
-function renderItem(d, si, item) {
-  return `<div class="item ${item.done ? 'done' : ''}" data-id="${item.id}" draggable="true" ondragstart="dragStart(event, '${d.id}', ${si}, '${item.id}')" onclick="toggle('${d.id}', ${si}, '${item.id}')">
-    <div class="cb"><svg class="cbchk" width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div class="itext">${item.label}</div>
-    <div class="item-actions">
-      <button class="del-btn" onclick="deleteItem(event, '${d.id}', ${si}, '${item.id}')">🗑️ Excluir</button>
-    </div>
   </div>`;
 }
 
 function renderAll() {
   renderTabs();
-  const panelsContainer = document.getElementById('panels');
-  if (panelsContainer) {
-    panelsContainer.innerHTML = `<div class="panel ${activeTab === 'resumo' ? 'active' : ''}" id="panel-resumo">${renderResumo()}</div>` +
+  const panels = document.getElementById('panels');
+  if(panels) {
+    panels.innerHTML = `<div class="panel ${activeTab === 'resumo' ? 'active' : ''}" id="panel-resumo">${renderResumo()}</div>` +
       userDisciplines.map(d => `<div class="panel ${activeTab === d.id ? 'active' : ''}" id="panel-${d.id}">${renderDiscPanel(d)}</div>`).join('');
   }
-  updateOverall();
 }
 
-function updateOverall() {
-  const { done, total, pct } = overallStats();
-  if(document.getElementById('overall-fill')) document.getElementById('overall-fill').style.width = pct + '%';
-  if(document.getElementById('hdr-pct')) document.getElementById('hdr-pct').textContent = pct + '%';
-  if(document.getElementById('hdr-of')) document.getElementById('hdr-of').textContent = `${done}/${total} tópicos`;
-}
-
-// ── INTERACTIONS & NOVAS FUNÇÕES (EDIT, ADD, DEL, DRAG) ────
+// ── INTERACTIONS ──
 function switchTab(id) {
   activeTab = id;
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  const panel = document.getElementById('panel-'+id);
-  if (panel) { if(id === 'resumo') panel.innerHTML = renderResumo(); panel.classList.add('active'); }
-  renderTabs();
+  renderAll();
 }
 
-function toggle(dId, si, itemId) {
+function cycleStatus(dId, si, itemId) {
   let d = userDisciplines.find(x => x.id === dId);
   let item = d.sections[si].items.find(i => i.id === itemId);
   if(item) {
-    item.done = !item.done;
+    item.status = ((item.status || 0) + 1) % 4;
     scheduleSave();
     
-    // Atualiza apenas a sessão visualmente para evitar piscar toda a tela
+    // Atualiza apenas a sessão visualmente para não perder o scroll
     const el = document.getElementById(`sec-${dId}-${si}`);
-    if (el) el.outerHTML = renderSection(d, d.sections[si], si);
+    if(el) el.outerHTML = renderSection(d, d.sections[si], si);
     
-    const dh = document.querySelector(`#panel-${dId} .disc-stats`);
-    if (dh) { const st = discStats(d); dh.textContent = `${st.done}/${st.total} tópicos`; }
-    
-    updateOverall();
-    renderTabs();
-    if (activeTab === 'resumo') { const rp = document.getElementById('panel-resumo'); if(rp) rp.innerHTML = renderResumo(); }
+    // Atualiza resumo invisivelmente se não for a aba ativa
+    if(activeTab === 'resumo') renderAll();
   }
 }
 
-function updateTitle(dId, si, newTitle) {
-  let text = newTitle.trim();
-  if(!text) return; // ignora se tentar deixar vazio
-  let d = userDisciplines.find(x => x.id === dId);
-  
-  if (si === null) {
-     d.fullLabel = text; // Título da matéria
-  } else {
-     d.sections[si].title = text; // Título do bloco
-  }
+function updateGlobalPI(val) {
+  userGrades.pi = val;
   scheduleSave();
-  // Nao chamamos renderAll() direto para nao roubar o foco do cursor se a pessoa clicou em outro lugar
+  renderAll();
+}
+
+function updateGrade(dId, avId, val) {
+  if(!userGrades[dId]) userGrades[dId] = {};
+  userGrades[dId][avId] = val;
+  scheduleSave();
+  renderAll();
+}
+
+function updateTitle(dId, si, text) {
+  text = text.trim(); if(!text) return;
+  userDisciplines.find(x => x.id === dId).sections[si].title = text;
+  scheduleSave();
 }
 
 function addItem(dId, si) {
-  let text = prompt('Nome do novo tópico de estudo:');
-  if (!text || !text.trim()) return;
-  
-  let d = userDisciplines.find(x => x.id === dId);
-  d.sections[si].items.push({ id: genId(), label: text.trim(), done: false });
-  scheduleSave();
-  renderAll();
+  let text = prompt('Nome do novo tópico:');
+  if(text && text.trim()) {
+    userDisciplines.find(x => x.id === dId).sections[si].items.push({ id: genId(), label: text.trim(), status: 0 });
+    scheduleSave(); renderAll();
+  }
 }
 
-function deleteItem(event, dId, si, itemId) {
-  event.stopPropagation(); // impede de marcar/desmarcar o item ao clicar na lixeira
-  if (!confirm('Tem certeza que deseja excluir este tópico?')) return;
-  
-  let d = userDisciplines.find(x => x.id === dId);
-  d.sections[si].items = d.sections[si].items.filter(i => i.id !== itemId);
-  scheduleSave();
-  renderAll();
+function deleteItem(dId, si, itemId) {
+  if(confirm('Excluir este tópico?')) {
+    let s = userDisciplines.find(x => x.id === dId).sections[si];
+    s.items = s.items.filter(i => i.id !== itemId);
+    scheduleSave(); renderAll();
+  }
 }
 
-// ── DRAG AND DROP ──────────────────────────────────────────
+// ── DRAG & DROP ──
+let dragContext = null;
 function dragStart(e, dId, si, itemId) {
   dragContext = { dId, si, itemId };
   e.dataTransfer.setData('text/plain', itemId);
-  setTimeout(() => e.target.classList.add('dragging'), 0); // timeout pro navegador poder fazer o "ghost" da imagem original
+  setTimeout(() => e.target.classList.add('dragging'), 0);
 }
-
-function dragOver(e) {
-  e.preventDefault(); // Necessário para permitir o drop
-}
-
 function drop(e, targetDId, targetSi) {
   e.preventDefault();
-  if (!dragContext) return;
-  if (dragContext.dId !== targetDId) {
-    alert("Só é possível arrastar tópicos entre blocos da mesma matéria.");
-    return;
-  }
+  if(!dragContext || dragContext.dId !== targetDId) return alert("Arraste apenas na mesma matéria.");
   
   let d = userDisciplines.find(x => x.id === targetDId);
-  let sourceSec = d.sections[dragContext.si];
-  let targetSec = d.sections[targetSi];
-
-  let itemIndex = sourceSec.items.findIndex(i => i.id === dragContext.itemId);
-  if(itemIndex === -1) return;
-
-  let [movedItem] = sourceSec.items.splice(itemIndex, 1);
-
-  // Calcula se vai jogar no meio (baseado em onde soltou) ou no final da lista
+  let srcSec = d.sections[dragContext.si];
+  let tgtSec = d.sections[targetSi];
+  
+  let itemIdx = srcSec.items.findIndex(i => i.id === dragContext.itemId);
+  if(itemIdx === -1) return;
+  
+  let [movedItem] = srcSec.items.splice(itemIdx, 1);
+  
   let dropTarget = e.target.closest('.item');
-  if (dropTarget) {
-     let targetItemId = dropTarget.dataset.id;
-     let tIndex = targetSec.items.findIndex(i => i.id === targetItemId);
-     if (tIndex !== -1) {
-         targetSec.items.splice(tIndex, 0, movedItem);
-     } else {
-         targetSec.items.push(movedItem);
-     }
-  } else {
-     targetSec.items.push(movedItem); // Se soltou no vazio do bloco, vai pro final
-  }
-
-  scheduleSave();
-  renderAll();
-  dragContext = null;
+  if(dropTarget) {
+    let tIdx = tgtSec.items.findIndex(i => i.id === dropTarget.dataset.id);
+    if(tIdx !== -1) tgtSec.items.splice(tIdx, 0, movedItem);
+    else tgtSec.items.push(movedItem);
+  } else { tgtSec.items.push(movedItem); }
+  
+  dragContext = null; scheduleSave(); renderAll();
 }
 
-function resetDisc(dId) {
-  if (!confirm(`Apagar todos os checks de ${dId}?`)) return;
-  let d = userDisciplines.find(x => x.id === dId);
-  d.sections.forEach(s => s.items.forEach(i => i.done = false));
-  scheduleSave();
-  renderAll();
+// ── COUNTDOWN ──
+function startCountdown() {
+  const target = new Date('2026-07-18T23:59:59').getTime();
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = target - now;
+    const el = document.getElementById('cd-val');
+    if(!el) return;
+    if(diff < 0) { el.textContent = "FIM!"; return; }
+    
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    el.textContent = `${d.toString().padStart(2,'0')}:${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+  }, 1000);
 }
 </script>
 </body>
